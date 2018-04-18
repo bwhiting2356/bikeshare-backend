@@ -1,7 +1,7 @@
-import { MergedStationData } from '../shared/MergedStationData';
-import { DistanceMatrixResultRow } from "../shared/DistanceMatrixResultRow";
-import { StationWithDistance } from "../shared/StationWithDistance";
-import { compareMergedStationData } from "./findNearestStations/compareMergedStationData";
+import { MergedStationData } from '../../shared/MergedStationData';
+import { DistanceMatrixResultRow } from "../../shared/DistanceMatrixResultRow";
+import { StationWithDistance } from "../../shared/StationWithDistance";
+import { compareMergedStationData } from "./compareMergedStationData";
 
 export const mergeDistanceMatrixResultWithStations = (
     response: DistanceMatrixResultRow[],

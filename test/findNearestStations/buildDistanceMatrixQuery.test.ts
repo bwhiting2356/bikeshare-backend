@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import { StationWithDistance } from "../shared/StationWithDistance";
-import { buildDistanceMatrixQuery } from "../src/findNearestStations/buildDistanceMatrixQuery";
-import { DistanceMatixQuery } from "../shared/DistanceMatrixQuery";
+import { StationWithDistance } from "../../shared/StationWithDistance";
+import { buildDistanceMatrixQuery } from "../../src/findNearestStations/buildDistanceMatrixQuery";
+import { DistanceMatixQuery } from "../../shared/DistanceMatrixQuery";
 
 
 describe('Build Distance Matrix Query', function() {

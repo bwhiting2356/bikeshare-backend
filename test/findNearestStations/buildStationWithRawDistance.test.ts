@@ -1,9 +1,9 @@
 
 import {expect} from "chai";
-import {LatLng} from "../shared/LatLng";
-import {Station} from "../shared/Station";
-import {buildStationWithRawDistance} from "../src/findNearestStations/buildStationWithRawDistance";
-import {distanceCrowFlies} from "../src/findNearestStations/distanceCrowFlies";
+import {LatLng} from "../../shared/LatLng";
+import {Station} from "../../shared/Station";
+import {buildStationWithRawDistance} from "../../src/findNearestStations/buildStationWithRawDistance";
+import {distanceCrowFlies} from "../../src/findNearestStations/distanceCrowFlies";
 
 describe('Build Station With Raw Distance', function() {
     it('should correctly build an object with distance from location', () => {

@@ -1,9 +1,9 @@
-import { findClosestStationsByRawDistance } from "../src/findNearestStations/findClosestStationsByRawDistance";
+import { findClosestStationsByRawDistance } from "../../src/findNearestStations/findClosestStationsByRawDistance";
 
 import { expect } from 'chai';
-import { Station } from "../shared/Station";
-import { LatLng } from "../shared/LatLng";
-import { StationWithDistance } from "../shared/StationWithDistance";
+import { Station } from "../../shared/Station";
+import { LatLng } from "../../shared/LatLng";
+import { StationWithDistance } from "../../shared/StationWithDistance";
 
 describe('Find Closest Stations Raw Distance', function() {
     let station1: Station;

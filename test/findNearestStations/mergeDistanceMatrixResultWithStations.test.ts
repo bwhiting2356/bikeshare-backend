@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import { DistanceMatrixResultRow } from "../shared/DistanceMatrixResultRow";
-import { StationWithDistance } from "../shared/StationWithDistance";
-import { MergedStationData } from "../shared/MergedStationData";
-import {mergeDistanceMatrixResultWithStations} from "../src/mergeDistanceMatrixResultWithStations";
+import { DistanceMatrixResultRow } from "../../shared/DistanceMatrixResultRow";
+import { StationWithDistance } from "../../shared/StationWithDistance";
+import { MergedStationData } from "../../shared/MergedStationData";
+import {mergeDistanceMatrixResultWithStations} from "../../src/findNearestStations/mergeDistanceMatrixResultWithStations";
 
 describe('Merge Distance Matrix Result With Stations', function() {
     it('should correctly merge items', () => {

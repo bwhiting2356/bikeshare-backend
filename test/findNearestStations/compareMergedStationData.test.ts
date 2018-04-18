@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import { MergedStationData } from "../shared/MergedStationData";
-import { compareMergedStationData } from "../src/findNearestStations/compareMergedStationData";
+import { MergedStationData } from "../../shared/MergedStationData";
+import { compareMergedStationData } from "../../src/findNearestStations/compareMergedStationData";
 
 describe('Compare Merged Station Data', function() {
     it('should return the correct difference of distances', () => {

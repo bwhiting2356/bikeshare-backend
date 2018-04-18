@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import {findClosestStationsByTravelDistance} from "../src/findNearestStations/findClosestStationsByTravelDistance";
-import {LatLng} from "../shared/LatLng";
+import {findClosestStationsByTravelDistance} from "../../src/findNearestStations/findClosestStationsByTravelDistance";
+import {LatLng} from "../../shared/LatLng";
 
 describe('Find The Closest Stations By Travel Distance', function() {
     const expectedResult = [

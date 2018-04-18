@@ -3,7 +3,7 @@ import { buildDistanceMatrixQuery } from "./buildDistanceMatrixQuery";
 import { fetchDistanceMatrix } from "./fetchDistanceMatrix";
 import { getStations } from "./getStations";
 import { findClosestStationsByRawDistance } from "./findClosestStationsByRawDistance";
-import { mergeDistanceMatrixResultWithStations } from "../mergeDistanceMatrixResultWithStations";
+import { mergeDistanceMatrixResultWithStations } from "./mergeDistanceMatrixResultWithStations";
 import { MergedStationData } from "../../shared/MergedStationData";
 
 export const findClosestStationsByTravelDistance = async (location: LatLng): Promise<MergedStationData[]> => {

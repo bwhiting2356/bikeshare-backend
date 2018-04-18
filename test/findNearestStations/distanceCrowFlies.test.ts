@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { LatLng } from "../shared/LatLng";
-import { distanceCrowFlies } from "../src/findNearestStations/distanceCrowFlies";
+import { LatLng } from "../../shared/LatLng";
+import { distanceCrowFlies } from "../../src/findNearestStations/distanceCrowFlies";
 
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 // import 'mocha';
