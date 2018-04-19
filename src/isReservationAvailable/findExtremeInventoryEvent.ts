@@ -1,6 +1,6 @@
-import { ReservationType } from '../shared/ReservationType';
-import { ReservationEvent } from '../shared/ReservationEvent';
-import {ReservationQuery} from "../shared/ReservationQuery";
+import { ReservationType } from '../../shared/ReservationType';
+import { ReservationEvent } from '../../shared/ReservationEvent';
+import {ReservationQuery} from "../../shared/ReservationQuery";
 
 
 export const findExtremeInventoryEvent = (

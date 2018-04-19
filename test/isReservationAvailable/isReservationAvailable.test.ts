@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { isReservationAvailable } from "../src/isReservationAvailable";
-import { ReservationQuery } from "../shared/ReservationQuery";
-import {ReservationEvent} from "../shared/ReservationEvent";
+import { isReservationAvailable } from "../../src/isReservationAvailable/isReservationAvailable";
+import { ReservationQuery } from "../../shared/ReservationQuery";
+import {ReservationEvent} from "../../shared/ReservationEvent";
 
 describe('Is Reservation Available\n', function() {
 
@@ -225,5 +225,42 @@ describe('Is Reservation Available\n', function() {
                 })
                 .catch(done);
         });
+
+        it(`should return false:
+        * query is pickup
+        * query time is 30 minutes from current time
+        * station has one bike in it
+        * one pickup reservation 45 minutes from now\n`, done => {
+
+            const currentTime = new Date("2018-04-18T00:00:00.491Z");
+
+            const stationValues = {
+                currentInv: 1,
+                capacity: 10
+            };
+
+            const query: ReservationQuery = {
+                stationId: 1,
+                time: new Date("2018-04-18T00:30:00.491Z"),
+                type: 'pickup'
+            };
+
+            const reservationEvents: ReservationEvent[] = [
+                {
+                    time: new Date("2018-04-18T00:45:00.491Z"),
+                    potentialHighInv: 1,
+                    potentialLowInv: 0
+                },
+            ];
+
+            isReservationAvailable(currentTime, stationValues, query, reservationEvents)
+                .then((result) => {
+                    expect(result).to.deep.equal({
+                        result: true
+                    });
+                    done();
+                })
+                .catch(done);
+        })
     });
 });

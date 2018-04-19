@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { findPreviousEvent } from "../src/findPreviousEvent";
-import { ReservationEvent } from "../shared/ReservationEvent";
-import { ReservationQuery } from "../shared/ReservationQuery";
+import { findPreviousEvent } from "../../src/isReservationAvailable/findPreviousEvent";
+import { ReservationEvent } from "../../shared/ReservationEvent";
+import { ReservationQuery } from "../../shared/ReservationQuery";
 
 describe('Find Previous Event', function() {
     it('should return null if there are no events at all', () => {

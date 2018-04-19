@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { findExtremeInventoryEvent } from "../src/findExtremeInventoryEvent";
-import { ReservationEvent } from "../shared/ReservationEvent";
-import { ReservationQuery } from "../shared/ReservationQuery";
+import { findExtremeInventoryEvent } from "../../src/isReservationAvailable/findExtremeInventoryEvent";
+import { ReservationEvent } from "../../shared/ReservationEvent";
+import { ReservationQuery } from "../../shared/ReservationQuery";
 
 describe('Find Extreme Inventory Event', function() {
     it('should return null if there are no events at all', () => {

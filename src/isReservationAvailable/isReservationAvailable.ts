@@ -1,5 +1,5 @@
-import { ReservationQuery } from "../shared/ReservationQuery";
-import { ReservationEvent } from "../shared/ReservationEvent";
+import { ReservationQuery } from "../../shared/ReservationQuery";
+import { ReservationEvent } from "../../shared/ReservationEvent";
 import {findExtremeInventoryEvent} from "./findExtremeInventoryEvent";
 import {findPreviousEvent} from "./findPreviousEvent";
 
