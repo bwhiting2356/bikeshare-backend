@@ -4,7 +4,9 @@ import { ReservationQuery } from "../shared/ReservationQuery";
 import {ReservationEvent} from "../shared/ReservationEvent";
 
 describe('Is Reservation Available\n', function() {
+
     describe('Invalid request:', () => {
+
         it(`should throw an error: 
         * query time is earlier than the present\n`,
             done => {
@@ -35,6 +37,7 @@ describe('Is Reservation Available\n', function() {
     });
 
     describe('No future reservations:', () => {
+
         it(`should return false: 
         * query type is pickup 
         * station is empty
@@ -179,6 +182,7 @@ describe('Is Reservation Available\n', function() {
     });
 
     describe('Future Reservations:', () => {
+
         it(`should return true:
         * query type is pickup
         * query time is 30 minutes from current time
