@@ -1,12 +1,5 @@
-import {ReservationType} from "../shared/ReservationType";
-import {ReservationQuery} from "../shared/ReservationQuery";
-
-interface ReservationEvent {
-    time: Date;
-    // reservationId: string;
-    potentialHighInv: number;
-    potentialLowInv: number;
-}
+import { ReservationQuery } from "../shared/ReservationQuery";
+import { ReservationEvent } from "../shared/ReservationEvent";
 
 const reservEvents: ReservationEvent[] = [
     {
@@ -14,7 +7,6 @@ const reservEvents: ReservationEvent[] = [
         potentialHighInv: 3,
         potentialLowInv: 2
     }
-
 ];
 
 interface StationValues {
@@ -32,10 +24,11 @@ interface ReservationQueryResult {
 
 
 export const isReservationAvailable = async (
+    currentTime: Date,
     stationData: StationValues,
     reservationQuery: ReservationQuery,
     reservationEvents: ReservationEvent[]) => {
-    if (reservationQuery.time < new Date()) {
+    if (reservationQuery.time < currentTime) {
         throw new Error("time is in the past");
     }
     if (!reservationEvents.length) {
