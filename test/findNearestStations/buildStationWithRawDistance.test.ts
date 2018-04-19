@@ -1,9 +1,7 @@
-
-import {expect} from "chai";
-import {LatLng} from "../../shared/LatLng";
-import {Station} from "../../shared/Station";
-import {buildStationWithRawDistance} from "../../src/findNearestStations/buildStationWithRawDistance";
-import {distanceCrowFlies} from "../../src/findNearestStations/distanceCrowFlies";
+import { expect } from "chai";
+import { LatLng } from "../../shared/LatLng";
+import { Station } from "../../shared/Station";
+import { buildStationWithRawDistance } from "../../src/findNearestStations/buildStationWithRawDistance";
 
 describe('Build Station With Raw Distance', function() {
     it('should correctly build an object with distance from location', () => {
@@ -33,8 +31,4 @@ describe('Build Station With Raw Distance', function() {
 
         })
     });
-
-    it('should throw error if inputs are missing', () => {
-        expect(() => buildStationWithRawDistance(null, null)).to.throw();
-    })
 });

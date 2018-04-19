@@ -1,6 +1,6 @@
 import { LatLng } from "../../shared/LatLng";
 
-function deg2rad(deg) {
+function deg2rad(deg: any) {
     return deg * (Math.PI/180)
 }
 

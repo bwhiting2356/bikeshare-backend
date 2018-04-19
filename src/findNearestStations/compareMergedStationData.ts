@@ -1,4 +1,4 @@
-import {MergedStationData} from "../../shared/MergedStationData";
+import { MergedStationData } from "../../shared/MergedStationData";
 
 export const compareMergedStationData = (
     a: MergedStationData,

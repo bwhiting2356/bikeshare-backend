@@ -1,4 +1,4 @@
-import {Station} from "../../shared/Station";
+import { Station } from "../../shared/Station";
 
 export const getStations = async (): Promise<Station[]> => {
     return [

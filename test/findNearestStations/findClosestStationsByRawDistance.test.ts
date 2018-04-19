@@ -111,6 +111,5 @@ describe('Find Closest Stations Raw Distance', function() {
         expect(findClosestStationsByRawDistance(stationList, location, 3)).to.deep.equal(expectedResult);
     });
 
-
 });
 

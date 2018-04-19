@@ -14,14 +14,6 @@ interface StationValues {
     currentInv: number;
 }
 
-interface ReservationQueryResult {
-    result: boolean;
-    values?: {
-        potentialHighInv: number;
-        potentialLowInv: number;
-    }
-}
-
 
 export const isReservationAvailable = async (
     currentTime: Date,
@@ -29,7 +21,7 @@ export const isReservationAvailable = async (
     reservationQuery: ReservationQuery,
     reservationEvents: ReservationEvent[]) => {
     if (reservationQuery.time < currentTime) {
-        throw new Error("time is in the past");
+        throw new Error("Time is in the past");
     }
     if (!reservationEvents.length) {
         if (reservationQuery.type === 'pickup') {

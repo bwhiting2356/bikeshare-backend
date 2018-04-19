@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 import { isReservationAvailable } from "../src/isReservationAvailable";
 import { ReservationQuery } from "../shared/ReservationQuery";
-import {ReservationEvent} from "../shared/ReservationEvent";
-
 
 describe('Is Reservation Available\n', function() {
     describe('Invalid request:', () => {

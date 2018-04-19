@@ -1,14 +1,11 @@
 import { ReservationEvent } from "../shared/ReservationEvent";
+import {ReservationQuery} from "../shared/ReservationQuery";
 
-/**
- * @param {ReservationEvent[]} events
- * @param {Date} time
- * @returns {ReservationEvent}
- */
-export const findPreviousEvent = (events: ReservationEvent[], time: Date) => {
-    let prevEvent: ReservationEvent = null;
+
+export const findPreviousEvent = (events: ReservationEvent[], reservationQuery: ReservationQuery) => {
+    let prevEvent: ReservationEvent | null = null;
     events.forEach(event => {
-        if (event.time < time) {
+        if (event.time < reservationQuery.time) {
             prevEvent = event;
         }
     });

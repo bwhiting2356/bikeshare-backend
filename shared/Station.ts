@@ -1,4 +1,4 @@
-import {LatLng} from "./LatLng";
+import { LatLng } from "./LatLng";
 
 export interface Station {
     id: string;
