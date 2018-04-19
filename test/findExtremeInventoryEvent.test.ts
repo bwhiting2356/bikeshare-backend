@@ -41,4 +41,69 @@ describe('Find Extreme Inventory Event', function() {
 
         expect(findExtremeInventoryEvent(query, events)).to.equal(null);
     });
+
+    it('should return the highest future event if type is dropoff', () => {
+        const query: ReservationQuery = {
+            stationId: 1,
+            time: new Date("2018-04-19T01:00:00.316Z"),
+            type: 'dropoff',
+        };
+
+        const events: ReservationEvent[] = [
+            {
+                time:  new Date("2018-04-19T04:00:00.316Z"),
+                potentialLowInv: 5,
+                potentialHighInv: 6
+            },
+            {
+                time: new Date("2018-04-19T05:00:00.316Z"),
+                potentialLowInv: 3,
+                potentialHighInv: 5
+            },
+            {
+                time:  new Date("2018-04-19T06:00:00.316Z"),
+                potentialLowInv: 2,
+                potentialHighInv: 4
+            }
+        ];
+
+        expect(findExtremeInventoryEvent(query, events)).to.deep.equal({
+            time:  new Date("2018-04-19T04:00:00.316Z"),
+            potentialLowInv: 5,
+            potentialHighInv: 6
+        });
+
+    })
+
+    it('should return the lowest future event if type is pickup', () => {
+        const query: ReservationQuery = {
+            stationId: 1,
+            time: new Date("2018-04-19T01:00:00.316Z"),
+            type: 'pickup',
+        };
+
+        const events: ReservationEvent[] = [
+            {
+                time:  new Date("2018-04-19T04:00:00.316Z"),
+                potentialLowInv: 5,
+                potentialHighInv: 6
+            },
+            {
+                time: new Date("2018-04-19T05:00:00.316Z"),
+                potentialLowInv: 3,
+                potentialHighInv: 5
+            },
+            {
+                time:  new Date("2018-04-19T06:00:00.316Z"),
+                potentialLowInv: 2,
+                potentialHighInv: 4
+            }
+        ];
+
+        expect(findExtremeInventoryEvent(query, events)).to.deep.equal({
+            time:  new Date("2018-04-19T06:00:00.316Z"),
+            potentialLowInv: 2,
+            potentialHighInv: 4
+        });
+    })
 });

@@ -10,7 +10,7 @@ describe('Find Previous Event', function() {
             stationId: 2,
             type: 'pickup'
         };
-        expect(findPreviousEvent([], query)).to.equal(null)
+        expect(findPreviousEvent(query, [])).to.equal(null)
     });
 
     it('should return null if there are no events before the time', () => {
@@ -19,14 +19,14 @@ describe('Find Previous Event', function() {
             stationId: 2,
             type: 'pickup'
         };
-        expect(findPreviousEvent([
-            {
-                time: new Date("2018-04-19T04:52:40.316Z"),
-                potentialLowInv: 1,
-                potentialHighInv: 1
-            }
 
-        ], query)).to.equal(null)
+        const events = [{
+            time: new Date("2018-04-19T04:52:40.316Z"),
+                potentialLowInv: 1,
+            potentialHighInv: 1
+        }];
+
+        expect(findPreviousEvent(query, [])).to.equal(null);
     });
 
     it('should return the expected previous event', () => {
@@ -54,7 +54,7 @@ describe('Find Previous Event', function() {
         ];
 
 
-        expect(findPreviousEvent(previousEvents, query)).to.deep.equal({
+        expect(findPreviousEvent(query, previousEvents)).to.deep.equal({
             time: new Date("2018-04-19T05:00:00.316Z"),
             potentialLowInv: 1,
             potentialHighInv: 1

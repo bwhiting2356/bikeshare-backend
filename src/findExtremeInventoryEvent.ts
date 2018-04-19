@@ -3,7 +3,9 @@ import { ReservationEvent } from '../shared/ReservationEvent';
 import {ReservationQuery} from "../shared/ReservationQuery";
 
 
-export const findExtremeInventoryEvent = (reservationQuery: ReservationQuery, events: ReservationEvent[]) => {
+export const findExtremeInventoryEvent = (
+    reservationQuery: ReservationQuery,
+    events: ReservationEvent[]): ReservationEvent | null => {
     let extremeEvent: ReservationEvent | null= null;
 
     events.forEach((event: ReservationEvent) => {
