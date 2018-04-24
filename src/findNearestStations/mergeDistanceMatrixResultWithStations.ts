@@ -1,11 +1,11 @@
 import { MergedStationData } from '../../shared/MergedStationData';
 import { DistanceMatrixResultRow } from "../../shared/DistanceMatrixResultRow";
-import { StationWithDistance } from "../../shared/StationWithDistance";
+import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
 import { compareMergedStationData } from "./compareMergedStationData";
 
 export const mergeDistanceMatrixResultWithStations = (
     response: DistanceMatrixResultRow[],
-    stationsData: StationWithDistance[]): MergedStationData[] => {
+    stationsData: StationDataWithDistance[]): MergedStationData[] => {
 
     return response
         .map((row, i) => {

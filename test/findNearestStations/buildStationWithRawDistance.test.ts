@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { LatLng } from "../../shared/LatLng";
-import { Station } from "../../shared/Station";
+import { StationData } from "../../shared/StationData";
 import { buildStationWithRawDistance } from "../../src/findNearestStations/buildStationWithRawDistance";
 
 describe('Build Station With Raw Distance', function() {
@@ -9,7 +9,7 @@ describe('Build Station With Raw Distance', function() {
             lat: 40.699372,
             lng: -73.953423
         };
-        const station: Station = {
+        const station: StationData = {
             id: 'a1',
             address: '123',
             coords: {

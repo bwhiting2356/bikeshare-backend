@@ -1,13 +1,13 @@
-import { Station } from '../../shared/Station';
+import { StationData } from '../../shared/StationData';
 import { LatLng } from '../../shared/LatLng';
-import { StationWithDistance } from "../../shared/StationWithDistance";
+import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
 import { buildStationWithRawDistance } from "./buildStationWithRawDistance";
 import { compareStationsWithRawDistance } from "./compareStationsWithRawDistance";
 
 export const findClosestStationsByRawDistance =
-    (stations: Station[],
+    (stations: StationData[],
      location: LatLng,
-     limit: number): StationWithDistance[] => {
+     limit: number): StationDataWithDistance[] => {
 
     return stations.map(station => buildStationWithRawDistance(station, location))
         .sort(compareStationsWithRawDistance)

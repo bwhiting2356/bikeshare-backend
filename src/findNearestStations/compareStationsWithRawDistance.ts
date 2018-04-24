@@ -1,6 +1,6 @@
-import { StationWithDistance } from "../../shared/StationWithDistance";
+import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
 
 
-export const compareStationsWithRawDistance = (a: StationWithDistance, b: StationWithDistance): number => {
+export const compareStationsWithRawDistance = (a: StationDataWithDistance, b: StationDataWithDistance): number => {
     return a.distanceFromLoc - b.distanceFromLoc
 };

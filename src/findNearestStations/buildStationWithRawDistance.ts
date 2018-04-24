@@ -1,11 +1,11 @@
-import { Station } from "../../shared/Station";
+import { StationData } from "../../shared/StationData";
 import { LatLng } from "../../shared/LatLng";
 import { distanceCrowFlies } from "./distanceCrowFlies";
-import { StationWithDistance } from "../../shared/StationWithDistance";
+import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
 
 
 export const buildStationWithRawDistance =
-    (station: Station, loc: LatLng): StationWithDistance => {
+    (station: StationData, loc: LatLng): StationDataWithDistance => {
     return {
         id: station.id,
         coords: station.coords,

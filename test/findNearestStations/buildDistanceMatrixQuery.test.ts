@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 
-import { StationWithDistance } from "../../shared/StationWithDistance";
+import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
 import { buildDistanceMatrixQuery } from "../../src/findNearestStations/buildDistanceMatrixQuery";
 import { DistanceMatixQuery } from "../../shared/DistanceMatrixQuery";
 
 
 describe('Build Distance Matrix Query', function() {
     it('should build a distance matrix query', () => {
-        const stationsWithRawDistance: StationWithDistance[] = [
+        const stationsWithRawDistance: StationDataWithDistance[] = [
             {
                 id: '1',
                 coords: {

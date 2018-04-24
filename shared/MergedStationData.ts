@@ -1,7 +1,7 @@
 import { DistanceMatrixResultRow } from "./DistanceMatrixResultRow";
-import { StationWithDistance } from "./StationWithDistance";
+import { StationDataWithDistance } from "./StationDataWithDistance";
 
 export interface MergedStationData {
     distanceMatrixResult: DistanceMatrixResultRow;
-    stationData: StationWithDistance
+    stationData: StationDataWithDistance
 }

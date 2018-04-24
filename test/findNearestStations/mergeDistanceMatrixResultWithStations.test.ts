@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { DistanceMatrixResultRow } from "../../shared/DistanceMatrixResultRow";
-import { StationWithDistance } from "../../shared/StationWithDistance";
+import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
 import { MergedStationData } from "../../shared/MergedStationData";
 import { mergeDistanceMatrixResultWithStations } from "../../src/findNearestStations/mergeDistanceMatrixResultWithStations";
 
@@ -13,7 +13,7 @@ describe('Merge Distance Matrix Result With Stations', function() {
             status: 'OK'
         }];
 
-        const stations: StationWithDistance[] = [{
+        const stations: StationDataWithDistance[] = [{
             id: '2',
             coords: {
                 lat: 40.696021,

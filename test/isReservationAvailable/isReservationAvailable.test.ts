@@ -256,7 +256,7 @@ describe('Is Reservation Available\n', function() {
             isReservationAvailable(currentTime, stationValues, query, reservationEvents)
                 .then((result) => {
                     expect(result).to.deep.equal({
-                        result: true
+                        result: false
                     });
                     done();
                 })

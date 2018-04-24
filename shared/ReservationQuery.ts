@@ -1,4 +1,4 @@
-import {ReservationType} from "./ReservationType";
+import { ReservationType } from "./ReservationType";
 
 export interface ReservationQuery {
     type: ReservationType,

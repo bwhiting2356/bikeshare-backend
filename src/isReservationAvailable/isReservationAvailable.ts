@@ -1,7 +1,7 @@
 import { ReservationQuery } from "../../shared/ReservationQuery";
 import { ReservationEvent } from "../../shared/ReservationEvent";
-import {findExtremeInventoryEvent} from "./findExtremeInventoryEvent";
-import {findPreviousEvent} from "./findPreviousEvent";
+import { findExtremeInventoryEvent } from "./findExtremeInventoryEvent";
+import { findPreviousEvent } from "./findPreviousEvent";
 
 interface StationValues {
     capacity: number;

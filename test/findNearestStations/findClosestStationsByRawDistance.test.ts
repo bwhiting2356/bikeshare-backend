@@ -1,19 +1,19 @@
 import { findClosestStationsByRawDistance } from "../../src/findNearestStations/findClosestStationsByRawDistance";
 
 import { expect } from 'chai';
-import { Station } from "../../shared/Station";
+import { StationData } from "../../shared/StationData";
 import { LatLng } from "../../shared/LatLng";
-import { StationWithDistance } from "../../shared/StationWithDistance";
+import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
 
 describe('Find Closest Stations Raw Distance', function() {
-    let station1: Station;
-    let station2: Station;
-    let station3: Station;
-    let station4: Station;
-    let station5: Station;
-    let stationList: Station[];
+    let station1: StationData;
+    let station2: StationData;
+    let station3: StationData;
+    let station4: StationData;
+    let station5: StationData;
+    let stationList: StationData[];
     let location: LatLng;
-    let expectedResult: StationWithDistance[];
+    let expectedResult: StationDataWithDistance[];
 
     beforeEach(() => {
         station1 = {

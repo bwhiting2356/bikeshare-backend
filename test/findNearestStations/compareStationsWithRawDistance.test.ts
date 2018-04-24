@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import { StationWithDistance } from "../../shared/StationWithDistance";
+import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
 import { compareStationsWithRawDistance } from "../../src/findNearestStations/compareStationsWithRawDistance";
 
 describe('Compare Station Raw Distance', function() {
     it('should return the correct difference of distances', () => {
-        const stationRawDistance1: StationWithDistance = {
+        const stationRawDistance1: StationDataWithDistance = {
             id: '1',
             address: '123',
             coords: {
@@ -15,7 +15,7 @@ describe('Compare Station Raw Distance', function() {
             distanceFromLoc: 1
         };
 
-        const stationRawDistance2: StationWithDistance = {
+        const stationRawDistance2: StationDataWithDistance = {
             id: '1',
             address: '123',
             coords: {

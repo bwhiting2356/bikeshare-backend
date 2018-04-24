@@ -18,7 +18,7 @@ describe('Find The Closest Stations By Travel Distance', function() {
                 status: "OK"
             },
             stationData: {
-                id: "1",
+                id: 1,
                 coords:
                     {
                         lat: 40.695756,
@@ -41,7 +41,7 @@ describe('Find The Closest Stations By Travel Distance', function() {
                 status: "OK"
             },
             stationData: {
-                id: "2",
+                id: 2,
                 coords: {
                     lat: 40.696021,
                     lng:-73.94352
@@ -63,7 +63,7 @@ describe('Find The Closest Stations By Travel Distance', function() {
                 status: "OK"
             },
             stationData: {
-                id:"3",
+                id: 3,
                 coords: {
                     lat: 40.696418,
                     lng:-73.940743
@@ -78,13 +78,9 @@ describe('Find The Closest Stations By Travel Distance', function() {
         lng: -73.953423
     };
 
-    it('should return the correct result', (done) => {
-        findClosestStationsByTravelDistance(location)
-            .then(result => {
-                expect(result).to.deep.equal(expectedResult)
-                done()
-            });
+    it('should return the correct result', async () => {
+        const result = await findClosestStationsByTravelDistance(location);
+        expect(result).to.deep.equal(expectedResult)
     })
-
-})
+});
 
