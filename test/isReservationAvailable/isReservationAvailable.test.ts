@@ -9,7 +9,7 @@ describe('Is Reservation Available\n', function() {
 
         it(`should throw an error: 
         * query time is earlier than the present\n`,
-            done => {
+            async () => {
 
                 const query: ReservationQuery = {
                     stationId: 1,
@@ -24,15 +24,11 @@ describe('Is Reservation Available\n', function() {
 
                 const currentTime = new Date("2018-04-18T23:41:15.491Z");
 
-                isReservationAvailable(currentTime, stationValues, query, [])
-                    .then(() => {
-                        done(new Error('Expected method to reject.'))
-                    })
-                    .catch((err) => {
-                        expect(err).to.be.ok;
-                        done();
-                    })
-                    .catch(done);
+                try {
+                    await isReservationAvailable(currentTime, stationValues, query, [])
+                } catch(err) {
+                    expect(err).to.be.ok;
+                }
             });
     });
 
@@ -42,7 +38,7 @@ describe('Is Reservation Available\n', function() {
         * query type is pickup 
         * station is empty
         * there are no future dropoffs scheduled\n`,
-            done => {
+            async () => {
 
                 const query: ReservationQuery = {
                     stationId: 1,
@@ -56,20 +52,15 @@ describe('Is Reservation Available\n', function() {
                 };
 
                 const currentTime = new Date("2018-04-18T23:41:15.491Z");
-
-                isReservationAvailable(currentTime, stationValues, query, [])
-                    .then((result) => {
-                        expect(result).to.deep.equal({result: false});
-                        done();
-                    })
-                    .catch(done);
+                const result = await isReservationAvailable(currentTime, stationValues, query, []);
+                expect(result).to.deep.equal({result: false});
             });
 
         it(`should return true: 
         * query type is pickup 
         * station has one bike in it
         * no future dropoffs scheduled\n`,
-            done => {
+            async () => {
 
                 const query: ReservationQuery = {
                     stationId: 1,
@@ -83,22 +74,18 @@ describe('Is Reservation Available\n', function() {
                 };
 
                 const currentTime = new Date("2018-04-18T23:41:15.491Z");
-
-                isReservationAvailable(currentTime, stationValues, query, [])
-                    .then((result) => {
-                        expect(result).to.deep.equal({
-                            result: true,
-                            value: 1
-                        });
-                        done();
-                    })
-                    .catch(done);
+                const result = await isReservationAvailable(currentTime, stationValues, query, []);
+                expect(result).to.deep.equal({
+                    result: true,
+                    value: 1
+                });
             });
 
         it(`should return false:
         * query type is dropoff
         * station is full
-        * no future pickups scheduled\n`, (done) => {
+        * no future pickups scheduled\n`,
+            async () => {
 
             const query: ReservationQuery = {
                 stationId: 1,
@@ -112,21 +99,17 @@ describe('Is Reservation Available\n', function() {
             };
 
             const currentTime = new Date("2018-04-18T23:41:15.491Z");
-
-            isReservationAvailable(currentTime, stationValues, query, [])
-                .then((result) => {
-                    expect(result).to.deep.equal({
-                        result: false,
-                    });
-                    done();
-                })
-                .catch(done);
+            const result = await isReservationAvailable(currentTime, stationValues, query, []);
+            expect(result).to.deep.equal({
+                result: false,
+            });
         });
 
         it(`should return false:
         * query type is dropoff
         * station is full
-        * no future pickups scheduled\n`, (done) => {
+        * no future pickups scheduled\n`,
+            async () => {
 
             const query: ReservationQuery = {
                 stationId: 1,
@@ -140,21 +123,17 @@ describe('Is Reservation Available\n', function() {
             };
 
             const currentTime = new Date("2018-04-18T23:41:15.491Z");
-
-            isReservationAvailable(currentTime, stationValues, query, [])
-                .then((result) => {
-                    expect(result).to.deep.equal({
-                        result: false,
-                    });
-                    done();
-                })
-                .catch(done);
+            const result = await isReservationAvailable(currentTime, stationValues, query, []);
+            expect(result).to.deep.equal({
+                result: false,
+            });
         });
 
         it(`should return true:
         * query type is dropoff
         * station has one spot left 
-        * there are no future pickups scheduled\n`, (done) => {
+        * there are no future pickups scheduled\n`,
+            async () => {
 
             const query: ReservationQuery = {
                 stationId: 1,
@@ -168,16 +147,11 @@ describe('Is Reservation Available\n', function() {
             };
 
             const currentTime = new Date("2018-04-18T23:41:15.491Z");
-
-            isReservationAvailable(currentTime, stationValues, query, [])
-                .then((result) => {
-                    expect(result).to.deep.equal({
-                        result: true,
-                        value: 9
-                    });
-                    done();
-                })
-                .catch(done);
+            const result = await isReservationAvailable(currentTime, stationValues, query, []);
+            expect(result).to.deep.equal({
+                result: true,
+                value: 9
+            });
         });
     });
 
@@ -187,7 +161,8 @@ describe('Is Reservation Available\n', function() {
         * query type is pickup
         * query time is 30 minutes from current time
         * station has zero bikes currently
-        * one dropoff reservation 5 minutes now\n`, done => {
+        * one dropoff reservation 5 minutes now\n`,
+            async () => {
 
             const currentTime = new Date("2018-04-18T00:00:00.491Z");
 
@@ -215,22 +190,19 @@ describe('Is Reservation Available\n', function() {
                 }
             ];
 
-            isReservationAvailable(currentTime, stationValues, query, reservationEvents)
-                .then((result) => {
-                    expect(result).to.deep.equal({
-                        result: true,
-                        value: 1
-                    });
-                    done();
-                })
-                .catch(done);
+            const result = await isReservationAvailable(currentTime, stationValues, query, reservationEvents);
+            expect(result).to.deep.equal({
+                result: true,
+                value: 1
+            });
         });
 
         it(`should return false:
         * query is pickup
         * query time is 30 minutes from current time
         * station has one bike in it
-        * one pickup reservation 45 minutes from now\n`, done => {
+        * one pickup reservation 45 minutes from now\n`,
+            async () => {
 
             const currentTime = new Date("2018-04-18T00:00:00.491Z");
 
@@ -253,14 +225,10 @@ describe('Is Reservation Available\n', function() {
                 },
             ];
 
-            isReservationAvailable(currentTime, stationValues, query, reservationEvents)
-                .then((result) => {
-                    expect(result).to.deep.equal({
-                        result: false
-                    });
-                    done();
-                })
-                .catch(done);
+            const result = await isReservationAvailable(currentTime, stationValues, query, reservationEvents);
+            expect(result).to.deep.equal({
+                result: false
+            });
         })
     });
 });
