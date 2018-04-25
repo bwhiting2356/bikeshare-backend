@@ -1,4 +1,5 @@
 import * as Sequelize from 'sequelize';
+import { DataTypeAbstract, DefineAttributeColumnOptions } from "sequelize";
 
 export const sequelize = new Sequelize('database', 'username', 'password', {
     host: 'localhost',
@@ -15,40 +16,10 @@ export const sequelize = new Sequelize('database', 'username', 'password', {
     storage: 'db.sqlite',
 
     // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators
-    operatorsAliases: false
-});
-//
-// interface Station {
-//     capacity: number;
-//     currentInv: number;
-//     address: string;
-//     coords: LatLng;
-// }
-
-export const Station = sequelize.define('station', {
-    capacity: Sequelize.INTEGER,
-    currentInv: Sequelize.INTEGER,
-    address: Sequelize.STRING,
-    coords: Sequelize.JSON
-}, {
-    timestamps: false
+    operatorsAliases: false,
+    logging: false
 });
 
-// sequelize.sync({force: true })
-//     .then(() => {
-//         return Station.create({
-//             capacity: 1,
-//             currentInv: 1,
-//             address: 'a',
-//             coords: {
-//                 lat: 1,
-//                 lng: 0
-//             }
-//         })
-//     })
-// .then(() => {
-//     return Station.findAll()
-// })
-// .then(stations => {
-//     console.log(stations)
-// });
+export type SequelizeAttributes<T extends { [key: string]: any }> = {
+    [P in keyof T]: string | DataTypeAbstract | DefineAttributeColumnOptions;
+};
