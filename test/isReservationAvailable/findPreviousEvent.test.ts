@@ -3,7 +3,7 @@ import { findPreviousEvent } from "../../src/isReservationAvailable/findPrevious
 import { ReservationEvent } from "../../shared/ReservationEvent";
 import { ReservationQuery } from "../../shared/ReservationQuery";
 
-describe('Find Previous Event', function() {
+describe('Find Previous event', function() {
     it('should return null if there are no events at all', () => {
         const query: ReservationQuery = {
             time: new Date("2018-04-19T04:52:40.316Z"),
@@ -22,7 +22,7 @@ describe('Find Previous Event', function() {
 
         const events = [{
             time: new Date("2018-04-19T04:52:40.316Z"),
-                potentialLowInv: 1,
+            potentialLowInv: 1,
             potentialHighInv: 1
         }];
 

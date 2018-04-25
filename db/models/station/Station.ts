@@ -1,14 +1,6 @@
 import * as Sequelize from 'sequelize';
-import { sequelize, SequelizeAttributes } from "../db";
-
-export interface StationAttributes {
-    id: number,
-    capacity: number,
-    currentInv: number;
-    address: string;
-    lat: number,
-    lng: number;
-}
+import { sequelize, SequelizeAttributes } from "../../db";
+import { StationAttributes } from "./StationAttributes";
 
 type StationInstance = Sequelize.Instance<StationAttributes> & StationAttributes;
 

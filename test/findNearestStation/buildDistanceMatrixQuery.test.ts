@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
-import { buildDistanceMatrixQuery } from "../../src/findNearestStations/buildDistanceMatrixQuery";
+import { buildDistanceMatrixQuery } from "../../src/findNearestStation/buildDistanceMatrixQuery";
 import { DistanceMatixQuery } from "../../shared/DistanceMatrixQuery";
 
 
@@ -9,20 +9,20 @@ describe('Build Distance Matrix Query', function() {
     it('should build a distance matrix query', () => {
         const stationsWithRawDistance: StationDataWithDistance[] = [
             {
-                id: '1',
-                coords: {
-                    lat: 40.695756,
-                    lng: -73.946182
-                },
+                id: 1,
+                lat: 40.695756,
+                lng: -73.946182,
+                capacity: 10,
+                currentInv: 0,
                 address: '896 Myrtle Ave',
                 distanceFromLoc: 0.17257437339372905
             },
             {
-                id: '2',
-                coords: {
-                    lat: 40.696021,
-                    lng: -73.94352
-                },
+                id: 2,
+                lat: 40.696021,
+                lng: -73.94352,
+                capacity: 10,
+                currentInv: 0,
                 address: '248 Throop Ave',
                 distanceFromLoc: 0.31194029043889854
             }

@@ -1,4 +1,6 @@
-export const mockStations = [
+import { StationAttributes } from "../models/station/StationAttributes";
+
+export const mockStations: StationAttributes[] = [
     {
         id: 1,
         address: '896 Myrtle Ave',

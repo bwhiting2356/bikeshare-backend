@@ -1,9 +1,10 @@
 import { expect } from 'chai';
+
 import { findExtremeInventoryEvent } from "../../src/isReservationAvailable/findExtremeInventoryEvent";
 import { ReservationEvent } from "../../shared/ReservationEvent";
 import { ReservationQuery } from "../../shared/ReservationQuery";
 
-describe('Find Extreme Inventory Event', function() {
+describe('Find Extreme Inventory event', function() {
     it('should return null if there are no events at all', () => {
         const query: ReservationQuery = {
             stationId: 1,

@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { LatLng } from "../../shared/LatLng";
-import { StationData } from "../../shared/StationData";
-import { buildStationWithRawDistance } from "../../src/findNearestStations/buildStationWithRawDistance";
+import { buildStationWithRawDistance } from "../../src/findNearestStation/buildStationWithRawDistance";
+import { StationAttributes } from "../../db/models/station/StationAttributes";
 
 describe('Build Station With Raw Distance', function() {
     it('should correctly build an object with distance from location', () => {
@@ -9,26 +9,25 @@ describe('Build Station With Raw Distance', function() {
             lat: 40.699372,
             lng: -73.953423
         };
-        const station: StationData = {
-            id: 'a1',
+        const station: StationAttributes = {
+            id: 1,
             address: '123',
-            coords: {
-                lat: 40.700802,
-                lng: -73.941866
-            }
+            lat: 40.700802,
+            lng: -73.941866,
+            currentInv: 1,
+            capacity: 10
 
         };
 
         const stationWithRawDistance = buildStationWithRawDistance(station, location);
         expect(stationWithRawDistance).to.deep.equal({
-            id: 'a1',
+            id: 1,
+            currentInv: 1,
+            capacity: 10,
             address: '123',
-            coords: {
-                lat: 40.700802,
-                lng: -73.941866
-            },
+            lat: 40.700802,
+            lng: -73.941866,
             distanceFromLoc: 0.6133878802545135
-
         })
     });
 });

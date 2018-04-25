@@ -15,4 +15,5 @@ export const mergeDistanceMatrixResultWithStations = (
             };
         })
         .sort(compareMergedStationData)
+        .filter(mergedData => mergedData.distanceMatrixResult.status === 'OK')
 };

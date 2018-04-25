@@ -6,7 +6,12 @@ export const fetchDistanceMatrix = (query: DistanceMatixQuery) => {
     return new Promise<DistanceMatrixResultRow[]>((resolve, reject) => {
         googleMapsClient.distanceMatrix(query, (err: any, res: any) => {
             if (err) reject(err);
-            resolve(res.json.rows[0].elements)
+            try {
+                const results = res.json.rows[0].elements;
+                resolve(results)
+            } catch (err) {
+                reject(err);
+            }
         });
     });
 };

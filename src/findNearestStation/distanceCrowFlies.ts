@@ -9,7 +9,7 @@ const convertKmToMiles = (km: number): number => {
 };
 
 export const distanceCrowFlies = (point1: LatLng, point2: LatLng) => {
-    if (!point1 || !point2 || !point1.lat || !point1.lng || !point2.lat || !point2.lng) {
+    if (!point1 || !point2 || isNaN(point1.lat) || isNaN(point1.lng) || isNaN(point2.lat) || isNaN(point2.lng)) {
         throw new Error("missing points with lat lng arguments")
     }
 

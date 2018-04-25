@@ -1,19 +1,19 @@
 import { expect } from 'chai';
 
 import { MergedStationData } from "../../shared/MergedStationData";
-import { compareMergedStationData } from "../../src/findNearestStations/compareMergedStationData";
+import { compareMergedStationData } from "../../src/findNearestStation/compareMergedStationData";
 
 describe('Compare Merged Station Data', function() {
     it('should return the correct difference of distances', () => {
         const mergedStation1: MergedStationData = {
             stationData: {
-                id: '1',
+                id: 1,
                 address: '123',
-                coords: {
-                    lat: 0,
-                    lng: 0
-                },
-                distanceFromLoc: 2
+                lat: 0,
+                lng: 0,
+                distanceFromLoc: 2,
+                capacity: 10,
+                currentInv: 1,
             },
             distanceMatrixResult: {
                 distance: {
@@ -24,19 +24,19 @@ describe('Compare Merged Station Data', function() {
                     text: '',
                     value: 1
                 },
-                status: ''
+                status: 'OK'
             }
         };
 
         const mergedStation2: MergedStationData = {
             stationData: {
-                id: '1',
+                id: 1,
                 address: '123',
-                coords: {
-                    lat: 0,
-                    lng: 0
-                },
-                distanceFromLoc: 2
+                lat: 0,
+                lng: 0,
+                distanceFromLoc: 2,
+                capacity: 10,
+                currentInv: 1,
             },
             distanceMatrixResult: {
                 distance: {
@@ -47,7 +47,7 @@ describe('Compare Merged Station Data', function() {
                     text: '',
                     value: 1
                 },
-                status: ''
+                status: 'OK'
             }
         };
 

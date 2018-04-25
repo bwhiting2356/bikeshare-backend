@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { LatLng } from "../../shared/LatLng";
-import { distanceCrowFlies } from "../../src/findNearestStations/distanceCrowFlies";
+import { distanceCrowFlies } from "../../src/findNearestStation/distanceCrowFlies";
 
 describe('Distance Crow Flies', function() {
     it('should correctly compute distance', () => {

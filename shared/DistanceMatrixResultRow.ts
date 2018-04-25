@@ -1,11 +1,11 @@
 export interface DistanceMatrixResultRow {
-    distance: {
+    distance?: {
         text: string;
         value: number;
     };
-    duration: {
+    duration?: {
         text: string;
         value: number;
     };
-    status: string;
+    status: 'OK' | 'ZERO_RESULTS';
 }

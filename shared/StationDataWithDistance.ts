@@ -1,5 +1,5 @@
-import { StationData } from "./StationData";
+import { StationAttributes } from "../db/models/station/StationAttributes";
 
-export interface StationDataWithDistance extends StationData {
+export interface StationDataWithDistance extends StationAttributes {
     distanceFromLoc: number;
 }

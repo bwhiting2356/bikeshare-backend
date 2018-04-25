@@ -1,7 +1,6 @@
 import { ReservationEvent } from "../../shared/ReservationEvent";
 import { ReservationQuery } from "../../shared/ReservationQuery";
 
-
 export const findPreviousEvent = (
     reservationQuery: ReservationQuery,
     events: ReservationEvent[]): ReservationEvent | null => {

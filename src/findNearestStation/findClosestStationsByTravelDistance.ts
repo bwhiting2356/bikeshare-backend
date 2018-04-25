@@ -11,5 +11,10 @@ export const findClosestStationsByTravelDistance = async (location: LatLng): Pro
     const stationsRawDistance = findClosestStationsByRawDistance(stations, location, 10);
     const distanceMatrixQuery = buildDistanceMatrixQuery(stationsRawDistance, location);
     const results = await fetchDistanceMatrix(distanceMatrixQuery);
-    return mergeDistanceMatrixResultWithStations(results, stationsRawDistance);
+    const nearbyStations = await mergeDistanceMatrixResultWithStations(results, stationsRawDistance);
+    if (nearbyStations.length) {
+        return nearbyStations;
+    } else {
+        throw new Error("no nearby stations");
+    }
 };
