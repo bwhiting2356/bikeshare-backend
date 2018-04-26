@@ -1,8 +1,8 @@
-import { googleMapsClient } from "../googleMaps/googleMapsClient";
+import { googleMapsClient } from "./googleMapsClient";
 import { DistanceMatixQuery } from "../../shared/DistanceMatrixQuery";
 import { DistanceMatrixResultRow } from "../../shared/DistanceMatrixResultRow";
 
-export const fetchDistanceMatrix = (query: DistanceMatixQuery) => {
+export const fetchDistanceMatrix = (query: DistanceMatixQuery): Promise<DistanceMatrixResultRow[]> => {
     return new Promise<DistanceMatrixResultRow[]>((resolve, reject) => {
         googleMapsClient.distanceMatrix(query, (err: any, res: any) => {
             if (err) reject(err);

@@ -2,7 +2,10 @@ import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
 import { LatLng } from "../../shared/LatLng";
 import { DistanceMatixQuery } from "../../shared/DistanceMatrixQuery";
 
+export type TravelMode = 'walking' | 'bicycling';
+
 export const buildDistanceMatrixQuery = (
+    mode: TravelMode,
     stations: StationDataWithDistance[],
     location: LatLng): DistanceMatixQuery => {
     const stationsCoords: LatLng[] = stations.map(station => {
@@ -15,6 +18,6 @@ export const buildDistanceMatrixQuery = (
     return {
         origins: [location],
         destinations: stationsCoords,
-        mode: 'walking'
+        mode
     };
 };

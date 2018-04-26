@@ -1,17 +1,17 @@
 import { LatLng } from "../../shared/LatLng";
-import { buildDistanceMatrixQuery } from "./buildDistanceMatrixQuery";
-import { fetchDistanceMatrix } from "./fetchDistanceMatrix";
+import { buildDistanceMatrixQuery } from "../googleMaps/buildDistanceMatrixQuery";
+import { fetchDistanceMatrix } from "../googleMaps/fetchDistanceMatrix";
 import { getStations } from "./getStations";
 import { findClosestStationsByRawDistance } from "./findClosestStationsByRawDistance";
-import { mergeDistanceMatrixResultWithStations } from "./mergeDistanceMatrixResultWithStations";
-import { MergedStationData } from "../../shared/MergedStationData";
+import { mergeWalkingDistanceMatrixResultWithStations } from "./mergeWalkingDistanceMatrixResultWithStations";
+import { StationDataWithWalking } from "../../shared/StationDataWithWalking";
 
-export const findClosestStationsByTravelDistance = async (location: LatLng): Promise<MergedStationData[]> => {
+export const findClosestStationsByTravelDistance = async (location: LatLng): Promise<StationDataWithWalking[]> => {
     const stations = await getStations();
     const stationsRawDistance = findClosestStationsByRawDistance(stations, location, 10);
     const distanceMatrixQuery = buildDistanceMatrixQuery(stationsRawDistance, location);
     const results = await fetchDistanceMatrix(distanceMatrixQuery);
-    const nearbyStations = await mergeDistanceMatrixResultWithStations(results, stationsRawDistance);
+    const nearbyStations = await mergeWalkingDistanceMatrixResultWithStations(results, stationsRawDistance);
     if (nearbyStations.length) {
         return nearbyStations;
     } else {
