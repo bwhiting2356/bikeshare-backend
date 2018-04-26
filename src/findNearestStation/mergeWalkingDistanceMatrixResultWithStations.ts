@@ -3,7 +3,7 @@ import { DistanceMatrixResultRow } from "../../shared/DistanceMatrixResultRow";
 import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
 import { compareMergedStationData } from "./compareMergedStationData";
 
-export const mergeDistanceMatrixResultWithStations = (
+export const mergeWalkingDistanceMatrixResultWithStations = (
     response: DistanceMatrixResultRow[],
     stationsData: StationDataWithDistance[]): StationDataWithWalking[] => {
 

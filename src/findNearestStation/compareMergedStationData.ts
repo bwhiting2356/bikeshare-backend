@@ -1,10 +1,10 @@
-import { MergedStationData } from "../../shared/MergedStationData";
+import { StationDataWithWalking } from "../../shared/StationDataWithWalking";
 
 export const compareMergedStationData = (
-    a: MergedStationData,
-    b: MergedStationData): number => {
-    if (a.distanceMatrixResult.distance && b.distanceMatrixResult.distance) {
-        return a.distanceMatrixResult.distance.value - b.distanceMatrixResult.distance.value
+    a: StationDataWithWalking,
+    b: StationDataWithWalking): number => {
+    if (a.walkingDistanceMatrixResult.distance && b.walkingDistanceMatrixResult.distance) {
+        return a.walkingDistanceMatrixResult.distance.value - b.walkingDistanceMatrixResult.distance.value
     } else {
         return -Infinity
     }

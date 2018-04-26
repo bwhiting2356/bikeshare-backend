@@ -6,10 +6,10 @@ import { findClosestStationsByRawDistance } from "./findClosestStationsByRawDist
 import { mergeWalkingDistanceMatrixResultWithStations } from "./mergeWalkingDistanceMatrixResultWithStations";
 import { StationDataWithWalking } from "../../shared/StationDataWithWalking";
 
-export const findClosestStationsByTravelDistance = async (location: LatLng): Promise<StationDataWithWalking[]> => {
+export const findClosestStationsByWalkingDistance = async (location: LatLng): Promise<StationDataWithWalking[]> => {
     const stations = await getStations();
     const stationsRawDistance = findClosestStationsByRawDistance(stations, location, 10);
-    const distanceMatrixQuery = buildDistanceMatrixQuery(stationsRawDistance, location);
+    const distanceMatrixQuery = buildDistanceMatrixQuery('walking', stationsRawDistance, location);
     const results = await fetchDistanceMatrix(distanceMatrixQuery);
     const nearbyStations = await mergeWalkingDistanceMatrixResultWithStations(results, stationsRawDistance);
     if (nearbyStations.length) {
