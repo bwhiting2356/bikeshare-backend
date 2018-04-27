@@ -1,4 +1,4 @@
-import { findClosestStationsByWalkingDistance } from "../findNearestStation/findClosestStationsByWalkingDistance";
+import { findClosestStationsByWalkingDistance } from "../findBestStation/findClosestStationsByWalkingDistance";
 import { sequelize} from "../../db/db";
 import { Station } from "../../db/models/station/Station";
 import { mockStations } from "../../db/mockData/mockStations";
@@ -7,71 +7,133 @@ import { mockReservations } from "../../db/mockData/mockReservations";
 import { mockEvents } from "../../db/mockData/mockEvents";
 import { Event } from "../../db/models/event/Event";
 import { SearchQuery } from "../../shared/SearchQuery";
-import { findBestStation } from "../findNearestStation/findBestStation";
-import {buildDistanceMatrixQuery} from "../googleMaps/buildDistanceMatrixQuery";
-import {LatLng} from "../../shared/LatLng";
-import {fetchDistanceMatrix} from "../googleMaps/fetchDistanceMatrix";
-import {mergeBicyclingDistanceMatrixResultWithStations} from "./mergeBicyclingDistanceMatrixResultWithStations";
+import { findBestStation } from "../findBestStation/findBestStation";
+import { fetchAndMergeBicyclingDistance } from "./fetchAndMergeBicyclingDistance";
+import { LatLng } from "../../shared/LatLng";
+import {getDirections} from "../googleMaps/getDirections";
+import {DirectionsQuery} from "../../shared/DirectionsQuery";
+// import {buildTripData} from "./buildTripData";
+import {BestStationResult} from "../../shared/BestStationResult";
 
 export const findBestTrip = async (query: SearchQuery) => {
-    // find closest stations to origin as the crow flies
-    // find closest stations to origin by walking distance
     const originStationsPromise = findClosestStationsByWalkingDistance(query.origin.coords);
-
-    // find closest stations to destination as the crow files
-    // find closest stations to destination by walking distance
     const destinationStationsPromise = findClosestStationsByWalkingDistance(query.destination.coords);
 
+
     if (query.timeTarget === 'Depart at') {
-        // find ideal start station:
-            // * take list of stations, with their distances from location
-            // * test to see if they're available at that time
-        const stationStart = await findBestStation(
+
+        let stationStartPromise,
+            stationEndPromise,
+            walking1DirectionsPromise,
+            walking2DirectionsPromise,
+            bicyclingDirectionsPromise;
+
+        // find origin station
+
+        stationStartPromise = findBestStation(
             originStationsPromise,
             query.datetime,
             query.origin.coords,
+            'walking',
             'origin');
 
+        // get walking 1 detailed directions
 
-        const destinationStations = (await destinationStationsPromise)
-            .map(station => station.stationData);
-        const stationLoc: LatLng = {
-            lat: stationStart.station.stationData.lat,
-            lng: stationStart.station.stationData.lng
+        const walking1DirectionsQuery: DirectionsQuery = {
+            origin:  query.origin.coords,
+            destination: {
+                lat: (await stationStartPromise).station.stationData.lat,
+                lng: (await stationStartPromise).station.stationData.lng,
+            },
+            mode: 'walking'
         };
-        const distanceMatrixQuery = buildDistanceMatrixQuery('bicycling', destinationStations, stationLoc);
-        const results = await fetchDistanceMatrix(distanceMatrixQuery);
-        const merged = mergeBicyclingDistanceMatrixResultWithStations(results, await destinationStationsPromise);
-        console.log("distance matrix results merged: ", merged);
-        // get bicycle distance matrix from that station at that time to all destination stations
-        // find ideal destination station:
-            // * available at that time
-            // * shortest walking distance
-    }
 
-    if (query.timeTarget === 'Arrive by') {
-        // find ideal destination station:
-            // * available at that time
-            // * shortest walking distance
+        walking1DirectionsPromise = getDirections(walking1DirectionsQuery);
+        const mergedStationsWithBicyclingDataPromise = fetchAndMergeBicyclingDistance(
+            destinationStationsPromise,
+            (await stationStartPromise).station); // TODO: refactor without await...
+
+        const stationStartLoc: LatLng = {
+            lat: (await stationStartPromise).station.stationData.lat,
+            lng: (await stationStartPromise).station.stationData.lng
+        };
+
+        // find dropoff station
+
+        stationEndPromise = findBestStation(
+            mergedStationsWithBicyclingDataPromise,
+            (await stationStartPromise).reservationTime,
+            stationStartLoc,
+            'bicycling',
+            'destination');
+
+        // get bicycling detailed directions
+
+        const bicyclingDirectionsQuery: DirectionsQuery = {
+            origin:  {
+                lat: (await stationStartPromise).station.stationData.lat,
+                lng: (await stationStartPromise).station.stationData.lng
+            },
+            destination: {
+                lat: (await stationEndPromise).station.stationData.lat,
+                lng: (await stationEndPromise).station.stationData.lng,
+            },
+            mode: 'bicycling'
+        };
+
+        bicyclingDirectionsPromise = getDirections(bicyclingDirectionsQuery);
+
+
+        // get walking 2 detailed directions
+
+        const walking2DirectionsQuery: DirectionsQuery = {
+            origin:  query.origin.coords,
+            destination: {
+                lat: (await stationEndPromise).station.stationData.lat,
+                lng: (await stationEndPromise).station.stationData.lng,
+            },
+            mode: 'walking'
+        };
+
+        walking2DirectionsPromise = getDirections(walking2DirectionsQuery);
+
+        // buildTripData(
+        //     query,
+        //     stationStartPromise,
+        //     stationEndPromise,
+        //     walking1DirectionsPromise,
+        //     walking2DirectionsPromise,
+        //     bicyclingDirectionsPromise)
+
+    } else if (query.timeTarget === 'Arrive by') {
         const stationEnd = await findBestStation(
             destinationStationsPromise,
             query.datetime,
             query.destination.coords,
+            'walking',
             'destination');
 
-        // get bicycle distance matrix from that station at that time to all origin stations
-        // find ideal origin station:
-            // * available at that time
-            // * shortest walking distance
+        const stationEndLoc: LatLng = {
+            lat: stationEnd.station.stationData.lat,
+            lng: stationEnd.station.stationData.lng
+        };
+        const mergedStationsWithBicyclingDataPromise = fetchAndMergeBicyclingDistance(originStationsPromise, stationEnd.station);
+
+        const stationStart = await findBestStation(
+            Promise.resolve(mergedStationsWithBicyclingDataPromise),
+            stationEnd.reservationTime,
+            stationEndLoc,
+            'bicycling',
+            'destination');
+
+        // TODO: complete this section, refactor...
+
+    } else {
+        throw new Error("query timetarget is not valid")
     }
-
-
-    // const nearestDestinationStation =
-
-
-
 };
 
+console.log(new Date());
 sequelize.sync({force: true})
     .then(async () => {
         await Station.bulkCreate(mockStations);
@@ -100,6 +162,7 @@ sequelize.sync({force: true})
 
         try {
             await findBestTrip(query)
+            console.log(new Date());
         } catch(err) {
             console.log(err);
         }
