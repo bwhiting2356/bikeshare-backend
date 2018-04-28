@@ -10,34 +10,27 @@ import { SearchQuery } from "../../shared/SearchQuery";
 import { findBestStation } from "../findBestStation/findBestStation";
 import { fetchAndMergeBicyclingDistance } from "./fetchAndMergeBicyclingDistance";
 import { LatLng } from "../../shared/LatLng";
-import {getDirections} from "../googleMaps/getDirections";
-import {DirectionsQuery} from "../../shared/DirectionsQuery";
-// import {buildTripData} from "./buildTripData";
-import {BestStationResult} from "../../shared/BestStationResult";
+import { getDirections } from "../googleMaps/getDirections";
+import { DirectionsQuery } from "../../shared/DirectionsQuery";
+import { buildTripData} from "./buildTripData";
+import { TripData } from "../../shared/TripData";
 
-export const findBestTrip = async (query: SearchQuery) => {
+export const findBestTrip = async (query: SearchQuery): Promise<TripData> => {
     const originStationsPromise = findClosestStationsByWalkingDistance(query.origin.coords);
     const destinationStationsPromise = findClosestStationsByWalkingDistance(query.destination.coords);
 
-
     if (query.timeTarget === 'Depart at') {
 
-        let stationStartPromise,
-            stationEndPromise,
-            walking1DirectionsPromise,
-            walking2DirectionsPromise,
-            bicyclingDirectionsPromise;
+        // 1. Find pickup station
 
-        // find origin station
-
-        stationStartPromise = findBestStation(
+        const stationStartPromise = findBestStation(
             originStationsPromise,
             query.datetime,
             query.origin.coords,
             'walking',
             'origin');
 
-        // get walking 1 detailed directions
+        // 2. Get walking 1 detailed directions, save for later
 
         const walking1DirectionsQuery: DirectionsQuery = {
             origin:  query.origin.coords,
@@ -48,26 +41,25 @@ export const findBestTrip = async (query: SearchQuery) => {
             mode: 'walking'
         };
 
-        walking1DirectionsPromise = getDirections(walking1DirectionsQuery);
-        const mergedStationsWithBicyclingDataPromise = fetchAndMergeBicyclingDistance(
-            destinationStationsPromise,
-            (await stationStartPromise).station); // TODO: refactor without await...
+        const walking1DirectionsPromise = getDirections(walking1DirectionsQuery);
+        const mergedStationsWithBicyclingDataPromise =
+            fetchAndMergeBicyclingDistance(destinationStationsPromise, stationStartPromise);
 
-        const stationStartLoc: LatLng = {
+        const stationStartLocation: LatLng = {
             lat: (await stationStartPromise).station.stationData.lat,
             lng: (await stationStartPromise).station.stationData.lng
         };
 
-        // find dropoff station
+        // 3. Find dropoff station
 
-        stationEndPromise = findBestStation(
+        const stationEndPromise = findBestStation(
             mergedStationsWithBicyclingDataPromise,
             (await stationStartPromise).reservationTime,
-            stationStartLoc,
+            stationStartLocation,
             'bicycling',
             'destination');
 
-        // get bicycling detailed directions
+        // 4. Get bicycling detailed directions
 
         const bicyclingDirectionsQuery: DirectionsQuery = {
             origin:  {
@@ -81,10 +73,9 @@ export const findBestTrip = async (query: SearchQuery) => {
             mode: 'bicycling'
         };
 
-        bicyclingDirectionsPromise = getDirections(bicyclingDirectionsQuery);
+        const bicyclingDirectionsPromise = getDirections(bicyclingDirectionsQuery);
 
-
-        // get walking 2 detailed directions
+        // 5. Get walking 2 detailed directions, save for later
 
         const walking2DirectionsQuery: DirectionsQuery = {
             origin:  query.origin.coords,
@@ -95,38 +86,97 @@ export const findBestTrip = async (query: SearchQuery) => {
             mode: 'walking'
         };
 
-        walking2DirectionsPromise = getDirections(walking2DirectionsQuery);
+        const walking2DirectionsPromise = getDirections(walking2DirectionsQuery);
 
-        // buildTripData(
-        //     query,
-        //     stationStartPromise,
-        //     stationEndPromise,
-        //     walking1DirectionsPromise,
-        //     walking2DirectionsPromise,
-        //     bicyclingDirectionsPromise)
+        // 6. bundle all data and return
+
+        return buildTripData(
+            query,
+            stationStartPromise,
+            stationEndPromise,
+            walking1DirectionsPromise,
+            walking2DirectionsPromise,
+            bicyclingDirectionsPromise)
 
     } else if (query.timeTarget === 'Arrive by') {
-        const stationEnd = await findBestStation(
+
+        // 1. Find dropoff station first
+
+        const stationEndPromise = findBestStation(
             destinationStationsPromise,
             query.datetime,
             query.destination.coords,
             'walking',
             'destination');
 
-        const stationEndLoc: LatLng = {
-            lat: stationEnd.station.stationData.lat,
-            lng: stationEnd.station.stationData.lng
-        };
-        const mergedStationsWithBicyclingDataPromise = fetchAndMergeBicyclingDistance(originStationsPromise, stationEnd.station);
+        // 2. Get walking 2 detailed directions, save for later
 
-        const stationStart = await findBestStation(
-            Promise.resolve(mergedStationsWithBicyclingDataPromise),
-            stationEnd.reservationTime,
+        const walking2DirectionsQuery: DirectionsQuery = {
+            origin:  query.destination.coords,
+            destination: {
+                lat: (await stationEndPromise).station.stationData.lat,
+                lng: (await stationEndPromise).station.stationData.lng,
+            },
+            mode: 'walking'
+        };
+
+        const walking2DirectionsPromise = getDirections(walking2DirectionsQuery);
+
+        const stationEndLoc: LatLng = {
+            lat: (await stationEndPromise).station.stationData.lat,
+            lng: (await stationEndPromise).station.stationData.lng
+        };
+        const mergedStationsWithBicyclingDataPromise =
+            fetchAndMergeBicyclingDistance(originStationsPromise, stationEndPromise);
+
+
+        // 3. Find pickup station
+
+        const stationStartPromise = findBestStation(
+            mergedStationsWithBicyclingDataPromise,
+            (await stationEndPromise).reservationTime,
             stationEndLoc,
             'bicycling',
             'destination');
 
-        // TODO: complete this section, refactor...
+        // 4. Get bicycling detailed directions
+
+        const bicyclingDirectionsQuery: DirectionsQuery = {
+            origin:  {
+                lat: (await stationStartPromise).station.stationData.lat,
+                lng: (await stationStartPromise).station.stationData.lng
+            },
+            destination: {
+                lat: (await stationEndPromise).station.stationData.lat,
+                lng: (await stationEndPromise).station.stationData.lng,
+            },
+            mode: 'bicycling'
+        };
+
+        const bicyclingDirectionsPromise = getDirections(bicyclingDirectionsQuery);
+
+        // 5. Get walking 1 detailed directions, save for later
+
+        const walking1DirectionsQuery: DirectionsQuery = {
+            origin:  query.origin.coords,
+            destination: {
+                lat: (await stationStartPromise).station.stationData.lat,
+                lng: (await stationStartPromise).station.stationData.lng,
+            },
+            mode: 'walking'
+        };
+
+        const walking1DirectionsPromise = getDirections(walking1DirectionsQuery);
+
+        // 6. bundle all data and return
+
+        return buildTripData(
+            query,
+            stationStartPromise,
+            stationEndPromise,
+            walking1DirectionsPromise,
+            walking2DirectionsPromise,
+            bicyclingDirectionsPromise)
 
     } else {
         throw new Error("query timetarget is not valid")
@@ -161,8 +211,9 @@ sequelize.sync({force: true})
         };
 
         try {
-            await findBestTrip(query)
+            const result = await findBestTrip(query)
             console.log(new Date());
+            console.log(result);
         } catch(err) {
             console.log(err);
         }

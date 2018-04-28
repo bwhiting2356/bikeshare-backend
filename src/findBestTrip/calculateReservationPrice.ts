@@ -14,5 +14,6 @@ export const calculateReservationPrice = (
         ? capacity - value
         : value;
 
-    return MAX_PAYOUT - (incrementCount * incrementSize);
+    const fullDecimalValue = MAX_PAYOUT - (incrementCount * incrementSize);
+    return parseFloat(fullDecimalValue.toFixed(2));
 };
