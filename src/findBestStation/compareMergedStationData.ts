@@ -1,10 +1,13 @@
 import { StationDataWithWalking } from "../../shared/StationDataWithWalking";
+import {SuccessRow} from "../../shared/DistanceMatrixResultRow";
 
 export const compareMergedStationData = (
     a: StationDataWithWalking,
     b: StationDataWithWalking): number => {
-    if (a.walkingDistanceMatrixResult.distance && b.walkingDistanceMatrixResult.distance) {
-        return a.walkingDistanceMatrixResult.distance.value - b.walkingDistanceMatrixResult.distance.value
+    const aDistanceMatrixRow = a.walkingDistanceMatrixResult as SuccessRow;
+    const bDistanceMatrixRow = b.walkingDistanceMatrixResult as SuccessRow;
+    if ( aDistanceMatrixRow.distance && bDistanceMatrixRow.distance) {
+        return aDistanceMatrixRow.distance.value - bDistanceMatrixRow.distance.value
     } else {
         return -Infinity
     }

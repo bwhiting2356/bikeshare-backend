@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
-import { buildDistanceMatrixQuery } from "../../src/findNearestStation/buildDistanceMatrixQuery";
+import { buildDistanceMatrixQuery } from "../../src/googleMaps/buildDistanceMatrixQuery";
 import { DistanceMatixQuery } from "../../shared/DistanceMatrixQuery";
 
 
@@ -40,7 +40,7 @@ describe('Build Distance Matrix Query', function() {
             mode: 'walking'
         };
 
-        expect(buildDistanceMatrixQuery(stationsWithRawDistance, location)).to.deep.equal(expectedResult);
+        expect(buildDistanceMatrixQuery('walking', stationsWithRawDistance, location)).to.deep.equal(expectedResult);
 
     })
 

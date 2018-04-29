@@ -2,10 +2,10 @@ import { expect } from 'chai';
 
 import { DistanceMatrixResultRow } from "../../shared/DistanceMatrixResultRow";
 import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
-import { MergedStationData } from "../../shared/MergedStationData";
-import { mergeDistanceMatrixResultWithStations } from "../../src/findNearestStation/mergeDistanceMatrixResultWithStations";
+import { StationDataWithWalking } from "../../shared/StationDataWithWalking";
+import { mergeWalkingDistanceMatrixResultWithStations } from "../../src/findBestStation/mergeWalkingDistanceMatrixResultWithStations";
 
-describe('Merge Distance Matrix Result With Stations', function() {
+describe('Merge Walking Distance Matrix Result With Stations', function() {
     it('should correctly merge items', () => {
         const distanceMatrixResultRows: DistanceMatrixResultRow[] = [{
             distance: { text: '1.5 km', value: 1461 },
@@ -23,12 +23,12 @@ describe('Merge Distance Matrix Result With Stations', function() {
             distanceFromLoc: 0.31194029043889854
         }];
 
-        const expectedResult: MergedStationData[] = [{
+        const expectedResult: StationDataWithWalking[] = [{
             stationData: stations[0],
-            distanceMatrixResult: distanceMatrixResultRows[0]
+            walkingDistanceMatrixResult: distanceMatrixResultRows[0]
         }];
 
-        expect(mergeDistanceMatrixResultWithStations(distanceMatrixResultRows, stations)).to.deep.equal(expectedResult);
+        expect(mergeWalkingDistanceMatrixResultWithStations(distanceMatrixResultRows, stations)).to.deep.equal(expectedResult);
     });
 
     it('should remove error results', () => {
@@ -66,12 +66,11 @@ describe('Merge Distance Matrix Result With Stations', function() {
             }
         ];
 
-        const expectedResult: MergedStationData[] = [{
+        const expectedResult: StationDataWithWalking[] = [{
             stationData: stations[1],
-            distanceMatrixResult: distanceMatrixResultRows[1]
+            walkingDistanceMatrixResult: distanceMatrixResultRows[1]
         }];
-        expect(mergeDistanceMatrixResultWithStations(distanceMatrixResultRows, stations)).to.deep.equal(expectedResult);
-
+        expect(mergeWalkingDistanceMatrixResultWithStations(distanceMatrixResultRows, stations)).to.deep.equal(expectedResult);
 
     });
 });

@@ -1,13 +1,13 @@
 import { expect } from 'chai';
-import { findClosestStationsByTravelDistance } from "../../src/findNearestStation/findClosestStationsByTravelDistance";
+import { findClosestStationsByWalkingDistance } from "../../src/findBestStation/findClosestStationsByWalkingDistance";
 import { LatLng } from "../../shared/LatLng";
-import { MergedStationData } from "../../shared/MergedStationData";
+import { StationDataWithWalking } from "../../shared/StationDataWithWalking";
 import { sequelize } from "../../db/db";
 import { StationAttributes } from "../../db/models/station/StationAttributes";
 import { Station } from "../../db/models/station/Station";
 
 
-describe('Find The Closest Stations By Travel Distance', function() {
+describe('Find The Closest Stations By Walking Distance', function() {
     before(async () => {
         const stations: StationAttributes[] = [
             {
@@ -38,9 +38,9 @@ describe('Find The Closest Stations By Travel Distance', function() {
         await sequelize.sync({ force: true })
         await Station.bulkCreate(stations);
     });
-    const expectedResult: MergedStationData[] = [
+    const expectedResult: StationDataWithWalking[] = [
         {
-            distanceMatrixResult: {
+            walkingDistanceMatrixResult: {
                 distance: {
                     text: "1.0 km",
                     value: 1034
@@ -63,7 +63,7 @@ describe('Find The Closest Stations By Travel Distance', function() {
             }
         },
         {
-            distanceMatrixResult: {
+            walkingDistanceMatrixResult: {
                 distance: {
                     text: "1.2 km",
                     value: 1237
@@ -85,7 +85,7 @@ describe('Find The Closest Stations By Travel Distance', function() {
             }
         },
         {
-            distanceMatrixResult: {
+            walkingDistanceMatrixResult: {
                 distance: {
                     text: "1.5 km",
                     value: 1461
@@ -113,7 +113,7 @@ describe('Find The Closest Stations By Travel Distance', function() {
     };
 
     it('should return the correct result', async () => {
-        const result = await findClosestStationsByTravelDistance(location);
+        const result = await findClosestStationsByWalkingDistance(location);
         expect(result).to.deep.equal(expectedResult)
     })
 });

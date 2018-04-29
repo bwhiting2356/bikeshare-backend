@@ -11,7 +11,7 @@
 //
 // type stage = 'origin' | 'destination';
 //
-// export const findNearestStation = async (
+// export const findBestStation = async (
 //     searchQuery: SearchQuery,
 //     stage: stage) => {
 //     const nearestStations: StationDataWithWalking[] = await findClosestStationsByWalkingDistance(searchQuery.origin.coords);

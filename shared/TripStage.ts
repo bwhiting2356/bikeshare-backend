@@ -1,0 +1,1 @@
+export type TripStage = 'origin' | 'destination';

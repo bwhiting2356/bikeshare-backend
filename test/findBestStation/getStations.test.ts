@@ -2,12 +2,12 @@ import { expect } from 'chai';
 
 import { sequelize } from "../../db/db";
 import { mockStations } from "../../db/mockData/mockStations";
-import { getStations } from "../../src/findNearestStation/getStations";
+import { getStations } from "../../src/findBestStation/getStations";
 import { Station } from "../../db/models/station/Station";
 
 describe('Get Stations', function() {
     before(async () => {
-        await sequelize.sync({force: true });
+        await sequelize.sync({ force: true });
         return await Station.bulkCreate(mockStations);
     });
 

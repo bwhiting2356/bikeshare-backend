@@ -6,33 +6,45 @@ import { isReservationAvailable } from "../isReservationAvailable/isReservationA
 import { getEventsByStationId } from "../isReservationAvailable/getEventsByStationId";
 
 import { ReservationEvent } from "../../shared/ReservationEvent";
-import { DistanceMatrixResultRow } from "../../shared/DistanceMatrixResultRow";
+import {DistanceMatrixResultRow, SuccessRow} from "../../shared/DistanceMatrixResultRow";
 import { TripStage } from "../../shared/TripStage";
 
 import { addSeconds } from "../helpers/addSeconds";
 import { subtractSeconds } from "../helpers/subtractSeconds";
 import { BestStationResult } from "../../shared/BestStationResult";
+import {TravelMode} from "../googleMaps/buildDistanceMatrixQuery";
+import {StationDataWithBicycling} from "../../shared/StationDataWithBicycling";
 
 
 export const findBestStation = async (
     stationsPromise: Promise<StationDataWithWalking[]>,
     queryTime: Date,
     location: LatLng,
+    travelMode: TravelMode,
     stage: TripStage): Promise<BestStationResult> => {
 
     let nearestStations = await stationsPromise;
     let found = false;
 
     while (nearestStations && !found) {
+        // get top station from the queue
         const currentStation = nearestStations.shift();
-
-        // check for errors
         if (!currentStation) break;
-        const distanceMatrixResult: DistanceMatrixResultRow = currentStation.walkingDistanceMatrixResult;
+
+        // get correct distance matrix value depending on travel mode
+        let distanceMatrixResult: DistanceMatrixResultRow;
+        if (travelMode === 'walking') {
+            distanceMatrixResult = currentStation.walkingDistanceMatrixResult as SuccessRow
+        } else if (travelMode === 'bicycling') {
+            distanceMatrixResult = (currentStation as StationDataWithBicycling).bicyclingDistanceMatrixResult as SuccessRow;
+        } else {
+            throw new Error("invalid distance matrix ")
+        }
         if (!distanceMatrixResult.duration) {
             throw new Error("distance matrix result value not present");
         }
 
+        // get events for that station from the database
         const events = (await getEventsByStationId(currentStation.stationData.id)) as ReservationEvent[];
 
         // get the time of the proposed reservation
@@ -53,6 +65,7 @@ export const findBestStation = async (
         if (availability && availability.result) {
             return {
                 station: currentStation,
+                reservationTime,
                 availability
             };
         }

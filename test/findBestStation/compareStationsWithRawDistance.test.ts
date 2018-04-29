@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
-import { compareStationsWithRawDistance } from "../../src/findNearestStation/compareStationsWithRawDistance";
+import { compareStationsWithRawDistance } from "../../src/findBestStation/compareStationsWithRawDistance";
 
 describe('Compare Station Raw Distance', function() {
     it('should return the correct difference of distances', () => {

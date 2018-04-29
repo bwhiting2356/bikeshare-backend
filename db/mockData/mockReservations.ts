@@ -9,5 +9,15 @@ export const mockReservations = [
     },
     {
         stationId: 2
-    }
+    },
+    {
+        stationId: 2
+    },
+    {
+        stationId: 3
+    },
+    {
+        stationId: 3
+    },
+
 ]

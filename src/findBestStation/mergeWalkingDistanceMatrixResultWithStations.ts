@@ -14,6 +14,6 @@ export const mergeWalkingDistanceMatrixResultWithStations = (
                 stationData: stationsData[i]
             };
         })
+        .filter(mergedData => mergedData.walkingDistanceMatrixResult.status !== 'ZERO_RESULTS')
         .sort(compareMergedStationData)
-        .filter(mergedData => mergedData.walkingDistanceMatrixResult.status === 'OK')
 };

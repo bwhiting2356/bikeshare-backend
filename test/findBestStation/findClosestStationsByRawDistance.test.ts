@@ -1,4 +1,4 @@
-import { findClosestStationsByRawDistance } from "../../src/findNearestStation/findClosestStationsByRawDistance";
+import { findClosestStationsByRawDistance } from "../../src/findBestStation/findClosestStationsByRawDistance";
 
 import { expect } from 'chai';
 

@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { LatLng } from "../../shared/LatLng";
-import { buildStationWithRawDistance } from "../../src/findNearestStation/buildStationWithRawDistance";
+import { buildStationWithRawDistance } from "../../src/findBestStation/buildStationWithRawDistance";
 import { StationAttributes } from "../../db/models/station/StationAttributes";
 
 describe('Build Station With Raw Distance', function() {

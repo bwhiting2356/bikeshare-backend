@@ -1,11 +1,18 @@
-export interface DistanceMatrixResultRow {
-    distance?: {
+export interface SuccessRow {
+    distance: {
         text: string;
         value: number;
     };
-    duration?: {
+    duration: {
         text: string;
         value: number;
     };
-    status: 'OK' | 'ZERO_RESULTS';
+    status: 'OK';
 }
+
+export interface ErrorRow {
+    status: 'ZERO_RESULTS';
+}
+
+
+export type DistanceMatrixResultRow = SuccessRow | ErrorRow;
