@@ -33,38 +33,38 @@ export const findBestTrip = async (query: SearchQuery): Promise<TripData> => {
         bicyclingDirectionsPromise)
 };
 
-console.log(new Date());
-sequelize.sync({force: true})
-    .then(async () => {
-        await Station.bulkCreate(mockStations);
-        await Reservation.bulkCreate(mockReservations);
-        await Event.bulkCreate(mockEvents)
-    })
-    .then(async () => {
-        const query: SearchQuery = {
-            origin: {
-                coords: {
-                    lat: 40.695045,
-                    lng: -73.952586
-                },
-                address: ''
-            },
-            destination: {
-                coords: {
-                    lat: 40.691464,
-                    lng: -73.936879,
-                },
-                address: ''
-            },
-            timeTarget: 'Depart at',
-            datetime: new Date()
-        };
-
-        try {
-            const result = await findBestTrip(query)
-            console.log(new Date());
-            console.log(result);
-        } catch(err) {
-            console.log(err);
-        }
-    });
+// console.log(new Date());
+// sequelize.sync({force: true})
+//     .then(async () => {
+//         await Station.bulkCreate(mockStations);
+//         await Reservation.bulkCreate(mockReservations);
+//         await Event.bulkCreate(mockEvents)
+//     })
+//     .then(async () => {
+//         const query: SearchQuery = {
+//             origin: {
+//                 coords: {
+//                     lat: 40.695045,
+//                     lng: -73.952586
+//                 },
+//                 address: ''
+//             },
+//             destination: {
+//                 coords: {
+//                     lat: 40.691464,
+//                     lng: -73.936879,
+//                 },
+//                 address: ''
+//             },
+//             timeTarget: 'Depart at',
+//             datetime: new Date()
+//         };
+//
+//         try {
+//             const result = await findBestTrip(query)
+//             console.log(new Date());
+//             console.log(result);
+//         } catch(err) {
+//             console.log(err);
+//         }
+//     });

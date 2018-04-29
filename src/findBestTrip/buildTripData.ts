@@ -8,6 +8,8 @@ import { addSeconds } from "../helpers/addSeconds";
 import {LatLng} from "../../shared/LatLng";
 import {calculateReservationPrice} from "./calculateReservationPrice";
 import {calculateBicyclingRentalFee} from "./calculateBicyclingRentalFee";
+import {calculateArrivalTime} from "./calculateArrivalTime";
+import {calculateDepartureTime} from "./calculateDepartureTime";
 
 /*
     stationStart: {
@@ -38,18 +40,12 @@ export const buildTripData = async (
     const walking1Travel = await walking1DirectionsPromise;
     const walking2Travel = await walking2DirectionsPromise;
 
+    console.log("query: ", query);
 
-    const departureTime: Date = query.timeTarget === 'Depart at'
-        ? query.datetime
-        : subtractSeconds(
-            stationStartResult.reservationTime,
-            (stationStartResult.station.walkingDistanceMatrixResult as SuccessRow).duration.value);
-
-    const arrivalTime: Date = query.timeTarget === 'Arrive by'
-        ? query.datetime
-        : addSeconds(
-            stationEndResult.reservationTime,
-            (stationEndResult.station.walkingDistanceMatrixResult as SuccessRow).duration.value);
+    const departureTime: Date = calculateDepartureTime(query, stationStartResult);
+    console.log("departure time: ", departureTime);
+    const arrivalTime: Date = calculateArrivalTime(query, stationEndResult);
+    console.log("arrival time: ", arrivalTime);
 
     const stationStart = {
         id: stationStartResult.station.stationData.id,
@@ -100,6 +96,8 @@ export const buildTripData = async (
         stationEnd,
         status: 'test'
     };
+
+    console.log("trip data: ", tripData);
 
     return tripData;
 
