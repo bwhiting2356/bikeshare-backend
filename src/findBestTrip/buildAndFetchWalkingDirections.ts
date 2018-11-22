@@ -1,7 +1,7 @@
-import {LatLng} from "../../shared/LatLng";
-import {getDirections} from "../googleMaps/getDirections";
-import {DirectionsQuery} from "../../shared/DirectionsQuery";
-import {BestStationResult} from "../../shared/BestStationResult";
+import { LatLng } from "../../shared/LatLng";
+import { getDirections } from "../googleMaps/getDirections";
+import { DirectionsQuery } from "../../shared/DirectionsQuery";
+import { BestStationResult } from "../../shared/BestStationResult";
 
 export const buildAndFetchWalkingDirections = async (
     coords: LatLng,

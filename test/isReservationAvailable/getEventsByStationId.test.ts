@@ -7,7 +7,7 @@ import { mockReservations } from "../../db/mockData/mockReservations";
 import { Station } from "../../db/models/station/Station";
 import { Reservation } from "../../db/models/reservation/Reservation";
 import { Event } from "../../db/models/event/Event";
-import {getEventsByStationId} from "../../src/isReservationAvailable/getEventsByStationId";
+import { getEventsByStationId } from "../../src/isReservationAvailable/getEventsByStationId";
 
 describe('Get Events By Station Id', function() {
     before(async () => {

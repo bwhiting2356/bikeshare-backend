@@ -1,13 +1,15 @@
 import { expect } from 'chai';
-import { calculateArrivalTime } from "../../src/findBestTrip/calculateArrivalTime";
+
+import { sequelize } from "../../db/db";
+import { Station } from "../../db/models/station/Station";
+import { mockStations } from "../../db/mockData/mockStations";
+import { Reservation } from "../../db/models/reservation/Reservation";
+import { Event } from "../../db/models/event/Event";
+
 import { SearchQuery } from "../../shared/SearchQuery";
 import { BestStationResult } from "../../shared/BestStationResult";
 import { DistanceMatrixResultRow } from "../../shared/DistanceMatrixResultRow";
-import { mockStations } from "../../db/mockData/mockStations";
-import { sequelize } from "../../db/db";
-import { Station } from "../../db/models/station/Station";
-import { Reservation } from "../../db/models/reservation/Reservation";
-import { Event } from "../../db/models/event/Event";
+
 import { subtractSeconds } from "../../src/helpers/subtractSeconds";
 import { calculateDepartureTime } from "../../src/findBestTrip/calculateDepartureTime";
 
@@ -73,7 +75,7 @@ describe('Calculate Departure Time', function() {
         const actualTime = await calculateDepartureTime(query, stationEndResult)
         const expectedTime = new Date("2018-04-29T01:00:00.000Z");
         expect(actualTime).to.deep.equal(expectedTime);
-    })
+    });
 
     it('should return the calculated departure time', async () => {
         const query: SearchQuery = {

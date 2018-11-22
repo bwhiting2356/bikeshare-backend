@@ -73,9 +73,6 @@ exports.findBestStation = function (searchQuery, stationsPromise, queryTime, loc
                 reservationTime = searchQuery.timeTarget === 'Depart at'
                     ? addSeconds_1.addSeconds(queryTime, distanceMatrixResult.duration.value)
                     : subtractSeconds_1.subtractSeconds(queryTime, distanceMatrixResult.duration.value);
-                console.log("\n\n");
-                console.log(reservationTime);
-                console.log("\n\n");
                 stationQuery = {
                     type: type,
                     time: reservationTime,

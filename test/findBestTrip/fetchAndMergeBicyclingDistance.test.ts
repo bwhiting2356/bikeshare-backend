@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import {fetchAndMergeBicyclingDistance} from "../../src/findBestTrip/fetchAndMergeBicyclingDistance";
-import {StationDataWithWalking} from "../../shared/StationDataWithWalking";
-import {DistanceMatrixResultRow} from "../../shared/DistanceMatrixResultRow";
-import {StationDataWithDistance} from "../../shared/StationDataWithDistance";
-import {StationDataWithBicycling} from "../../shared/StationDataWithBicycling";
-import {BestStationResult} from "../../shared/BestStationResult";
+import { fetchAndMergeBicyclingDistance } from "../../src/findBestTrip/fetchAndMergeBicyclingDistance";
+import { StationDataWithWalking } from "../../shared/StationDataWithWalking";
+import { DistanceMatrixResultRow } from "../../shared/DistanceMatrixResultRow";
+import { StationDataWithDistance } from "../../shared/StationDataWithDistance";
+import { StationDataWithBicycling } from "../../shared/StationDataWithBicycling";
+import { BestStationResult } from "../../shared/BestStationResult";
 
 describe('Fetch And Merge Bicycling Distance', function() {
     it('should correctly fetch and merge data', async () => {

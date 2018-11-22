@@ -1,10 +1,9 @@
 import { expect } from 'chai';
 import { getDirections } from "../../src/googleMaps/getDirections";
-import {DirectionsQuery} from "../../shared/DirectionsQuery";
-import {DirectionsResponse} from "../../shared/DirectionsResponse";
+import { DirectionsQuery } from "../../shared/DirectionsQuery";
+import { DirectionsResponse } from "../../shared/DirectionsResponse";
 
 describe("Get Directions", function() {
-    this.timeout(10000);
     it("should return the correct directions", async () => {
         const query: DirectionsQuery = {
             origin: {
@@ -47,7 +46,6 @@ describe("Get Directions", function() {
 
         try {
             const result = await getDirections(query);
-            console.log("\n\nresult: ", result);
         } catch (err) {
             expect(err).to.be.ok
         }

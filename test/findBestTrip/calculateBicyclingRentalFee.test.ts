@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import {calculateBicyclingRentalFee, PRICE_PER_MINUTE} from "../../src/findBestTrip/calculateBicyclingRentalFee";
+import { calculateBicyclingRentalFee, PRICE_PER_MINUTE } from "../../src/findBestTrip/calculateBicyclingRentalFee";
 
 describe("Calculate Bicycling Rental Fee", function() {
   it('should correctly compute the price', () => {

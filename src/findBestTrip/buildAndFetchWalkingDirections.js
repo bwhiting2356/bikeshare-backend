@@ -36,26 +36,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var findClosestStationsByWalkingDistance_1 = require("../findBestStation/findClosestStationsByWalkingDistance");
-var buildTripData_1 = require("./buildTripData");
-var findStations_1 = require("./findStations");
-var buildAndFetchWalkingDirections_1 = require("./buildAndFetchWalkingDirections");
-var buildAndFetchBicyclingDirections_1 = require("./buildAndFetchBicyclingDirections");
-exports.findBestTrip = function (searchQuery) { return __awaiter(_this, void 0, void 0, function () {
-    var originStationsPromise, destinationStationsPromise, _a, stationStartPromise, stationEndPromise, walking1DirectionsPromise, walking2DirectionsPromise, bicyclingDirectionsPromise;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
+var getDirections_1 = require("../googleMaps/getDirections");
+exports.buildAndFetchWalkingDirections = function (coords, stationPromise) { return __awaiter(_this, void 0, void 0, function () {
+    var walking2DirectionsQuery, _a, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
-                originStationsPromise = findClosestStationsByWalkingDistance_1.findClosestStationsByWalkingDistance(searchQuery.origin.coords);
-                destinationStationsPromise = findClosestStationsByWalkingDistance_1.findClosestStationsByWalkingDistance(searchQuery.destination.coords);
-                return [4 /*yield*/, findStations_1.findStations(searchQuery, originStationsPromise, destinationStationsPromise)];
+                _a = {
+                    origin: coords
+                };
+                _b = {};
+                return [4 /*yield*/, stationPromise];
             case 1:
-                _a = _b.sent(), stationStartPromise = _a.stationStartPromise, stationEndPromise = _a.stationEndPromise;
-                walking1DirectionsPromise = buildAndFetchWalkingDirections_1.buildAndFetchWalkingDirections(searchQuery.origin.coords, stationStartPromise);
-                walking2DirectionsPromise = buildAndFetchWalkingDirections_1.buildAndFetchWalkingDirections(searchQuery.destination.coords, stationEndPromise);
-                bicyclingDirectionsPromise = buildAndFetchBicyclingDirections_1.buildAndFetchBicyclingDirections(stationStartPromise, stationEndPromise);
-                return [2 /*return*/, buildTripData_1.buildTripData(searchQuery, stationStartPromise, stationEndPromise, walking1DirectionsPromise, walking2DirectionsPromise, bicyclingDirectionsPromise)];
+                _b.lat = (_c.sent()).station.stationData.lat;
+                return [4 /*yield*/, stationPromise];
+            case 2:
+                walking2DirectionsQuery = (_a.destination = (_b.lng = (_c.sent()).station.stationData.lng,
+                    _b),
+                    _a.mode = 'walking',
+                    _a);
+                return [2 /*return*/, getDirections_1.getDirections(walking2DirectionsQuery)];
         }
     });
 }); };
-//# sourceMappingURL=findBestTrip.js.map
+//# sourceMappingURL=buildAndFetchWalkingDirections.js.map

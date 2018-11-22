@@ -11,11 +11,6 @@ export const calculateArrivalTime = (
         return query.datetime;
     } else if (query.timeTarget === 'Depart at') {
 
-        console.log("\n\n\n");
-        console.log(stationEndResult.reservationTime);
-        console.log((stationEndResult.station.walkingDistanceMatrixResult as SuccessRow).duration.value);
-        console.log("\n\n\n");
-
         return addSeconds(
             stationEndResult.reservationTime,
             (stationEndResult.station.walkingDistanceMatrixResult as SuccessRow).duration.value);

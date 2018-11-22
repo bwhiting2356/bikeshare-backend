@@ -5,13 +5,6 @@ import { TripData } from "../../shared/TripData";
 import { findStations } from "./findStations";
 import { buildAndFetchWalkingDirections } from "./buildAndFetchWalkingDirections";
 import { buildAndFetchBicyclingDirections } from "./buildAndFetchBicyclingDirections";
-import {mockStations} from "../../db/mockData/mockStations";
-import {sequelize} from "../../db/db";
-import {Reservation} from "../../db/models/reservation/Reservation";
-import {Station} from "../../db/models/station/Station";
-import {mockReservations} from "../../db/mockData/mockReservations";
-import {Event} from "../../db/models/event/Event";
-import {mockEvents} from "../../db/mockData/mockEvents";
 
 export const findBestTrip = async (searchQuery: SearchQuery): Promise<TripData> => {
     const originStationsPromise = findClosestStationsByWalkingDistance(searchQuery.origin.coords);
@@ -32,39 +25,3 @@ export const findBestTrip = async (searchQuery: SearchQuery): Promise<TripData> 
         walking2DirectionsPromise,
         bicyclingDirectionsPromise)
 };
-
-// console.log(new Date());
-// sequelize.sync({force: true})
-//     .then(async () => {
-//         await Station.bulkCreate(mockStations);
-//         await Reservation.bulkCreate(mockReservations);
-//         await Event.bulkCreate(mockEvents)
-//     })
-//     .then(async () => {
-//         const query: SearchQuery = {
-//             origin: {
-//                 coords: {
-//                     lat: 40.695045,
-//                     lng: -73.952586
-//                 },
-//                 address: ''
-//             },
-//             destination: {
-//                 coords: {
-//                     lat: 40.691464,
-//                     lng: -73.936879,
-//                 },
-//                 address: ''
-//             },
-//             timeTarget: 'Depart at',
-//             datetime: new Date()
-//         };
-//
-//         try {
-//             const result = await findBestTrip(query)
-//             console.log(new Date());
-//             console.log(result);
-//         } catch(err) {
-//             console.log(err);
-//         }
-//     });

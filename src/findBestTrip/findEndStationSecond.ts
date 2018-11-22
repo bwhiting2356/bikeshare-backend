@@ -2,7 +2,7 @@ import { findBestStation } from "../findBestStation/findBestStation";
 import { StationDataWithBicycling } from "../../shared/StationDataWithBicycling";
 import { LatLng } from "../../shared/LatLng";
 import { BestStationResult } from "../../shared/BestStationResult";
-import {SearchQuery} from "../../shared/SearchQuery";
+import { SearchQuery } from "../../shared/SearchQuery";
 
 export const findEndStationSecond = async (
     searchQuery: SearchQuery,

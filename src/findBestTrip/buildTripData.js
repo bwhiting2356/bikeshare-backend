@@ -50,23 +50,8 @@ var calculateReservationPrice_1 = require("./calculateReservationPrice");
 var calculateBicyclingRentalFee_1 = require("./calculateBicyclingRentalFee");
 var calculateArrivalTime_1 = require("./calculateArrivalTime");
 var calculateDepartureTime_1 = require("./calculateDepartureTime");
-/*
-    stationStart: {
-        id: string;
-        coords: LatLng;
-        address: string;
-        price: number;
-        time: Date;
-    },
-    bicyclingTravel: {
-        feet: number;
-        seconds: number;
-        points: LatLng[];
-        price: number;
-    },
- */
 exports.buildTripData = function (query, stationStartPromise, stationEndPromise, walking1DirectionsPromise, walking2DirectionsPromise, bicyclingDirectionsPromise) { return __awaiter(_this, void 0, void 0, function () {
-    var stationStartResult, stationEndResult, walking1Travel, walking2Travel, departureTime, arrivalTime, stationStart, bicyclingTravel, _a, _b, _c, stationEnd, tripData;
+    var stationStartResult, stationEndResult, walking1Travel, walking2Travel, departureTime, arrivalTime, stationStart, bicyclingTravel, _a, _b, _c, stationEnd;
     return __generator(this, function (_d) {
         switch (_d.label) {
             case 0: return [4 /*yield*/, stationStartPromise];
@@ -112,19 +97,18 @@ exports.buildTripData = function (query, stationStartPromise, stationEndPromise,
                     price: calculateReservationPrice_1.calculateReservationPrice(stationEndResult.availability.value, stationEndResult.station.stationData.capacity, 'dropoff'),
                     time: subtractSeconds_1.subtractSeconds(arrivalTime, stationEndResult.station.walkingDistanceMatrixResult.duration.value)
                 };
-                tripData = {
-                    origin: query.origin,
-                    destination: query.destination,
-                    departureTime: departureTime,
-                    arrivalTime: arrivalTime,
-                    walking1Travel: walking1Travel,
-                    walking2Travel: walking2Travel,
-                    bicyclingTravel: bicyclingTravel,
-                    stationStart: stationStart,
-                    stationEnd: stationEnd,
-                    status: 'test'
-                };
-                return [2 /*return*/, tripData];
+                return [2 /*return*/, {
+                        origin: query.origin,
+                        destination: query.destination,
+                        departureTime: departureTime,
+                        arrivalTime: arrivalTime,
+                        walking1Travel: walking1Travel,
+                        walking2Travel: walking2Travel,
+                        bicyclingTravel: bicyclingTravel,
+                        stationStart: stationStart,
+                        stationEnd: stationEnd,
+                        status: 'test'
+                    }];
         }
     });
 }); };

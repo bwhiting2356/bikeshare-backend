@@ -1,15 +1,17 @@
 import { expect } from 'chai';
-import {calculateArrivalTime} from "../../src/findBestTrip/calculateArrivalTime";
-import {SearchQuery} from "../../shared/SearchQuery";
-import {BestStationResult} from "../../shared/BestStationResult";
-import {DistanceMatrixResultRow} from "../../shared/DistanceMatrixResultRow";
-import {StationDataWithDistance} from "../../shared/StationDataWithDistance";
-import {mockStations} from "../../db/mockData/mockStations";
-import {sequelize} from "../../db/db";
-import {Station} from "../../db/models/station/Station";
-import {Reservation} from "../../db/models/reservation/Reservation";
-import {Event} from "../../db/models/event/Event";
-import {addSeconds} from "../../src/helpers/addSeconds";
+
+import { sequelize } from "../../db/db";
+import { Station } from "../../db/models/station/Station";
+import { mockStations } from "../../db/mockData/mockStations";
+import { Event } from "../../db/models/event/Event";
+import { Reservation } from "../../db/models/reservation/Reservation";
+
+import { calculateArrivalTime } from "../../src/findBestTrip/calculateArrivalTime";
+import { SearchQuery } from "../../shared/SearchQuery";
+import { BestStationResult } from "../../shared/BestStationResult";
+import { DistanceMatrixResultRow } from "../../shared/DistanceMatrixResultRow";
+
+import { addSeconds } from "../../src/helpers/addSeconds";
 
 describe('Calculate Arrival Time', function() {
     before(async () => {
@@ -70,8 +72,9 @@ describe('Calculate Arrival Time', function() {
             },
             reservationTime: new Date("2018-04-29T01:30:00.000Z"),
         };
-        expect(await calculateArrivalTime(query, stationEndResult)).to.deep.equal(new Date("2018-04-29T01:00:00.000Z"));
-    })
+        const expectedTime = new Date("2018-04-29T01:00:00.000Z");
+        expect(await calculateArrivalTime(query, stationEndResult)).to.deep.equal(expectedTime);
+    });
 
     it('should return the calculated arrival time', async () => {
 

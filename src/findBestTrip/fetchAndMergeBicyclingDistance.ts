@@ -10,8 +10,10 @@ export const fetchAndMergeBicyclingDistance = async (
     destinationStationsPromise: Promise<StationDataWithWalking[]>,
     bestStationData: Promise<BestStationResult>
 ): Promise<StationDataWithBicycling[]> => {
+
     const destinationStationsData = (await destinationStationsPromise)
         .map(station => station.stationData);
+
     const stationLoc: LatLng = {
         lat: (await bestStationData).station.stationData.lat,
         lng: (await bestStationData).station.stationData.lng

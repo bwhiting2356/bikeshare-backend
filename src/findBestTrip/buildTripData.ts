@@ -5,27 +5,10 @@ import { SearchQuery } from "../../shared/SearchQuery";
 import { subtractSeconds } from "../helpers/subtractSeconds";
 import { SuccessRow } from "../../shared/DistanceMatrixResultRow";
 import { addSeconds } from "../helpers/addSeconds";
-import {LatLng} from "../../shared/LatLng";
-import {calculateReservationPrice} from "./calculateReservationPrice";
-import {calculateBicyclingRentalFee} from "./calculateBicyclingRentalFee";
-import {calculateArrivalTime} from "./calculateArrivalTime";
-import {calculateDepartureTime} from "./calculateDepartureTime";
-
-/*
-    stationStart: {
-        id: string;
-        coords: LatLng;
-        address: string;
-        price: number;
-        time: Date;
-    },
-    bicyclingTravel: {
-        feet: number;
-        seconds: number;
-        points: LatLng[];
-        price: number;
-    },
- */
+import { calculateReservationPrice } from "./calculateReservationPrice";
+import { calculateBicyclingRentalFee } from "./calculateBicyclingRentalFee";
+import { calculateArrivalTime } from "./calculateArrivalTime";
+import { calculateDepartureTime } from "./calculateDepartureTime";
 
 export const buildTripData = async (
     query: SearchQuery,
@@ -34,7 +17,7 @@ export const buildTripData = async (
     walking1DirectionsPromise: Promise<DirectionsResponse>,
     walking2DirectionsPromise: Promise<DirectionsResponse>,
     bicyclingDirectionsPromise: Promise<DirectionsResponse>
-) => {
+): Promise<TripData> => {
     const stationStartResult = await stationStartPromise;
     const stationEndResult = await stationEndPromise;
     const walking1Travel = await walking1DirectionsPromise;
@@ -42,13 +25,6 @@ export const buildTripData = async (
 
     const departureTime: Date = calculateDepartureTime(query, stationStartResult);
     const arrivalTime: Date = calculateArrivalTime(query, stationEndResult);
-
-    // console.log("\n\n");
-    // console.log("station end result\n");
-    // console.log(stationEndResult);
-    // console.log("arrival time:\n");
-    // console.log(arrivalTime);
-    // console.log("\n\n");
 
     const stationStart = {
         id: stationStartResult.station.stationData.id,
@@ -87,7 +63,7 @@ export const buildTripData = async (
             (stationEndResult.station.walkingDistanceMatrixResult as SuccessRow).duration.value)
     };
 
-    const tripData: TripData = {
+    return {
         origin: query.origin,
         destination: query.destination,
         departureTime,
@@ -99,7 +75,5 @@ export const buildTripData = async (
         stationEnd,
         status: 'test'
     };
-
-    return tripData;
 
 };

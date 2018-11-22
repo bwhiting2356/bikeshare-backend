@@ -1,20 +1,14 @@
 import { expect } from 'chai';
-import {SearchQuery} from "../../shared/SearchQuery";
-import {findBestTrip} from "../../src/findBestTrip/findBestTrip";
-import {mockStations} from "../../db/mockData/mockStations";
-import {Reservation} from "../../db/models/reservation/Reservation";
-import {Station} from "../../db/models/station/Station";
-import {mockReservations} from "../../db/mockData/mockReservations";
-import {Event} from "../../db/models/event/Event";
-import {mockEvents} from "../../db/mockData/mockEvents";
-import {sequelize} from "../../db/db";
-import {TripData} from "../../shared/TripData";
-import {addSeconds} from "../../src/helpers/addSeconds";
+
+import { sequelize } from "../../db/db";
+import { Station } from "../../db/models/station/Station";
+
+import { SearchQuery } from "../../shared/SearchQuery";
+import { findBestTrip } from "../../src/findBestTrip/findBestTrip";
+import { TripData } from "../../shared/TripData";
+import { addSeconds } from "../../src/helpers/addSeconds";
 
 describe("Find Best Trip", function() {
-    // before(async () => {
-    //
-    // });
     it('should return the correct trip', async () => {
         // origin
         const myrtle_nostrand = {

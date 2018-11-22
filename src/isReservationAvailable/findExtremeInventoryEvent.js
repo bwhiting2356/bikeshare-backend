@@ -1,12 +1,8 @@
-import { ReservationEvent } from '../../shared/ReservationEvent';
-import { ReservationQuery } from "../../shared/ReservationQuery";
-
-export const findExtremeInventoryEvent = (
-    reservationQuery: ReservationQuery,
-    events: ReservationEvent[]): ReservationEvent | null => {
-    let extremeEvent: ReservationEvent | null = null;
-
-    events.forEach((event: ReservationEvent) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.findExtremeInventoryEvent = function (reservationQuery, events) {
+    var extremeEvent = null;
+    events.forEach(function (event) {
         if (reservationQuery.time <= event.time) {
             if (extremeEvent) {
                 if (reservationQuery.type === 'pickup') {
@@ -14,17 +10,19 @@ export const findExtremeInventoryEvent = (
                         && event.time >= reservationQuery.time) {
                         extremeEvent = event;
                     }
-                } else if (reservationQuery.type === 'dropoff') {
+                }
+                else if (reservationQuery.type === 'dropoff') {
                     if (event.potentialHighInv >= extremeEvent.potentialHighInv
                         && event.time >= reservationQuery.time) {
                         extremeEvent = event;
                     }
                 }
-            } else {
+            }
+            else {
                 extremeEvent = event;
             }
         }
     });
-
     return extremeEvent;
 };
+//# sourceMappingURL=findExtremeInventoryEvent.js.map

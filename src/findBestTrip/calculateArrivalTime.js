@@ -6,10 +6,6 @@ exports.calculateArrivalTime = function (query, stationEndResult) {
         return query.datetime;
     }
     else if (query.timeTarget === 'Depart at') {
-        console.log("\n\n\n");
-        console.log(stationEndResult.reservationTime);
-        console.log(stationEndResult.station.walkingDistanceMatrixResult.duration.value);
-        console.log("\n\n\n");
         return addSeconds_1.addSeconds(stationEndResult.reservationTime, stationEndResult.station.walkingDistanceMatrixResult.duration.value);
     }
     else {

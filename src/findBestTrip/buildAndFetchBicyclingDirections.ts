@@ -5,6 +5,7 @@ import { BestStationResult } from "../../shared/BestStationResult";
 export const buildAndFetchBicyclingDirections = async (
     stationStartPromise: Promise<BestStationResult>,
     stationEndPromise: Promise<BestStationResult>) => {
+
     const bicyclingDirectionsQuery: DirectionsQuery = {
         origin:  {
             lat: (await stationStartPromise).station.stationData.lat,

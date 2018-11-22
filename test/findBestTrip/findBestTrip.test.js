@@ -36,15 +36,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
-var findBestTrip_1 = require("../../src/findBestTrip/findBestTrip");
-var Station_1 = require("../../db/models/station/Station");
 var db_1 = require("../../db/db");
+var Station_1 = require("../../db/models/station/Station");
+var findBestTrip_1 = require("../../src/findBestTrip/findBestTrip");
 var addSeconds_1 = require("../../src/helpers/addSeconds");
 describe("Find Best Trip", function () {
     var _this = this;
-    // before(async () => {
-    //
-    // });
     it('should return the correct trip', function () { return __awaiter(_this, void 0, void 0, function () {
         var myrtle_nostrand, gates_malcolmx, willoughby_nostrand, lewis_gates, searchQuery, actualResult, expectedDepartureTime, expectedStationStartTime, expectedStationEndTime, expectedArrivalTime, expectedResult;
         return __generator(this, function (_a) {

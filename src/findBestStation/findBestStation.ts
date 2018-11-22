@@ -54,10 +54,6 @@ export const findBestStation = async (
             ? addSeconds(queryTime, distanceMatrixResult.duration.value)
             : subtractSeconds(queryTime, distanceMatrixResult.duration.value);
 
-
-        console.log("\n\n");
-        console.log(reservationTime);
-        console.log("\n\n");
         // build query
         const stationQuery: ReservationQuery = {
             type,
@@ -66,7 +62,6 @@ export const findBestStation = async (
         };
 
         // test availability
-        // TODO: I think there's a redundancy, both query and reservationTime are passed in as parameters
         const availability = await isReservationAvailable(
             reservationTime,
             currentStation.stationData,

@@ -33,6 +33,4 @@ export const findStations = async (
     } else {
         throw new Error("invalid time target");
     }
-
-
 };
