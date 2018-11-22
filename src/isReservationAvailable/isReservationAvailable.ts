@@ -23,7 +23,7 @@ export const isReservationAvailable = async (
     }
 
     const extremeEvent = findExtremeInventoryEvent(reservationQuery, reservationEvents);
-    const previousEvent = findPreviousEvent(reservationQuery, reservationEvents);
+    const previousEvent = findPreviousEvent(reservationQuery.time, reservationEvents);
 
     let result: ReservationAvailability;
     if (reservationQuery.type === 'pickup') {

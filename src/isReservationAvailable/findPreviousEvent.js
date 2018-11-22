@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findPreviousEvent = function (reservationQuery, events) {
+exports.findPreviousEvent = function (time, events) {
     var prevEvent = null;
     events.forEach(function (event) {
-        if (event.time < reservationQuery.time) {
+        if (event.time < time) {
             prevEvent = event;
         }
     });

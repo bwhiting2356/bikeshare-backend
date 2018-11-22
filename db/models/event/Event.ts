@@ -7,7 +7,6 @@ export const Event = sequelize.define('event', {
     time: Sequelize.DATE,
     potentialHighInv: Sequelize.INTEGER,
     potentialLowInv: Sequelize.INTEGER,
-
 }, {
     timestamps: false
 });

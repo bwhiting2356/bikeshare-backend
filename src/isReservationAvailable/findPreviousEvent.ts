@@ -2,12 +2,12 @@ import { ReservationEvent } from "../../shared/ReservationEvent";
 import { ReservationQuery } from "../../shared/ReservationQuery";
 
 export const findPreviousEvent = (
-    reservationQuery: ReservationQuery,
+    time: Date,
     events: ReservationEvent[]): ReservationEvent | null => {
     let prevEvent: ReservationEvent | null = null;
 
     events.forEach(event => {
-        if (event.time < reservationQuery.time) {
+        if (event.time < time) {
             prevEvent = event;
         }
     });
