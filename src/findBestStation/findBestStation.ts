@@ -6,22 +6,24 @@ import { isReservationAvailable } from "../isReservationAvailable/isReservationA
 import { getEventsByStationId } from "../isReservationAvailable/getEventsByStationId";
 
 import { ReservationEvent } from "../../shared/ReservationEvent";
-import {DistanceMatrixResultRow, SuccessRow} from "../../shared/DistanceMatrixResultRow";
-import { TripStage } from "../../shared/TripStage";
+import { DistanceMatrixResultRow, SuccessRow } from "../../shared/DistanceMatrixResultRow";
 
 import { addSeconds } from "../helpers/addSeconds";
 import { subtractSeconds } from "../helpers/subtractSeconds";
 import { BestStationResult } from "../../shared/BestStationResult";
-import {TravelMode} from "../googleMaps/buildDistanceMatrixQuery";
-import {StationDataWithBicycling} from "../../shared/StationDataWithBicycling";
+import { TravelMode} from "../googleMaps/buildDistanceMatrixQuery";
+import { StationDataWithBicycling } from "../../shared/StationDataWithBicycling";
+import { ReservationType } from "../../shared/ReservationType";
+import { SearchQuery } from "../../shared/SearchQuery";
 
 
 export const findBestStation = async (
+    searchQuery: SearchQuery,
     stationsPromise: Promise<StationDataWithWalking[]>,
     queryTime: Date,
     location: LatLng,
     travelMode: TravelMode,
-    stage: TripStage): Promise<BestStationResult> => {
+    type: ReservationType): Promise<BestStationResult> => {
 
     let nearestStations = await stationsPromise;
     let found = false;
@@ -48,20 +50,30 @@ export const findBestStation = async (
         const events = (await getEventsByStationId(currentStation.stationData.id)) as ReservationEvent[];
 
         // get the time of the proposed reservation
-        const reservationTime: Date = stage === 'origin'
+        const reservationTime: Date = searchQuery.timeTarget === 'Depart at'
             ? addSeconds(queryTime, distanceMatrixResult.duration.value)
             : subtractSeconds(queryTime, distanceMatrixResult.duration.value);
 
+
+        console.log("\n\n");
+        console.log(reservationTime);
+        console.log("\n\n");
         // build query
-        const query: ReservationQuery = {
-            type: stage === 'origin' ? 'pickup' : 'dropoff',
+        const stationQuery: ReservationQuery = {
+            type,
             time: reservationTime,
             stationId: currentStation.stationData.id
         };
 
         // test availability
         // TODO: I think there's a redundancy, both query and reservationTime are passed in as parameters
-        const availability = await isReservationAvailable(reservationTime, currentStation.stationData, query, events);
+        const availability = await isReservationAvailable(
+            reservationTime,
+            currentStation.stationData,
+            stationQuery,
+            events
+        );
+
         if (availability && availability.result) {
             return {
                 station: currentStation,
@@ -72,4 +84,5 @@ export const findBestStation = async (
     }
     // if we got this far then there is a problem
     throw new Error("no nearby stations available at this time")
+    // TODO: throw error with specific location (origin or destination) rather than not specified
 };

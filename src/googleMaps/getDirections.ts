@@ -1,6 +1,7 @@
 import { googleMapsClient } from "./googleMapsClient";
 import { DirectionsQuery } from "../../shared/DirectionsQuery";
 import { DirectionsResponse } from "../../shared/DirectionsResponse";
+import {TravelMode} from "./buildDistanceMatrixQuery";
 
 export const getDirections = (query: DirectionsQuery): Promise<DirectionsResponse> => {
     return new Promise<DirectionsResponse>((resolve, reject) => {
@@ -17,6 +18,8 @@ export const getDirections = (query: DirectionsQuery): Promise<DirectionsRespons
             } catch (err) {
                 reject(err);
             }
+
+            // TODO: is this catch(err) unnecessary?
         });
     });
 };

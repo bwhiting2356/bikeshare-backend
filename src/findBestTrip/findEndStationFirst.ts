@@ -3,13 +3,14 @@ import { SearchQuery } from "../../shared/SearchQuery";
 import { StationDataWithWalking } from "../../shared/StationDataWithWalking";
 
 export const findEndStationFirst = async (
+    searchQuery: SearchQuery,
     destinationStationsPromise: Promise<StationDataWithWalking[]>,
-    query: SearchQuery
 ) => {
     return findBestStation(
+        searchQuery,
         destinationStationsPromise,
-        query.datetime,
-        query.destination.coords,
+        searchQuery.datetime,
+        searchQuery.destination.coords,
         'walking',
-        'destination');
+        'dropoff');
 };

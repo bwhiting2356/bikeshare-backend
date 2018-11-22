@@ -40,12 +40,15 @@ export const buildTripData = async (
     const walking1Travel = await walking1DirectionsPromise;
     const walking2Travel = await walking2DirectionsPromise;
 
-    console.log("query: ", query);
-
     const departureTime: Date = calculateDepartureTime(query, stationStartResult);
-    console.log("departure time: ", departureTime);
     const arrivalTime: Date = calculateArrivalTime(query, stationEndResult);
-    console.log("arrival time: ", arrivalTime);
+
+    // console.log("\n\n");
+    // console.log("station end result\n");
+    // console.log(stationEndResult);
+    // console.log("arrival time:\n");
+    // console.log(arrivalTime);
+    // console.log("\n\n");
 
     const stationStart = {
         id: stationStartResult.station.stationData.id,
@@ -80,7 +83,7 @@ export const buildTripData = async (
             stationEndResult.station.stationData.capacity,
             'dropoff'),
         time: subtractSeconds(
-            departureTime,
+            arrivalTime,
             (stationEndResult.station.walkingDistanceMatrixResult as SuccessRow).duration.value)
     };
 
@@ -96,8 +99,6 @@ export const buildTripData = async (
         stationEnd,
         status: 'test'
     };
-
-    console.log("trip data: ", tripData);
 
     return tripData;
 

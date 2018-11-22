@@ -1,5 +1,5 @@
 import { StationDataWithWalking } from "../../shared/StationDataWithWalking";
-import {SuccessRow} from "../../shared/DistanceMatrixResultRow";
+import { SuccessRow } from "../../shared/DistanceMatrixResultRow";
 
 export const compareMergedStationData = (
     a: StationDataWithWalking,

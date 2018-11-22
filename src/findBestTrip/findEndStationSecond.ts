@@ -1,9 +1,11 @@
-import {findBestStation} from "../findBestStation/findBestStation";
-import {StationDataWithBicycling} from "../../shared/StationDataWithBicycling";
-import {LatLng} from "../../shared/LatLng";
-import {BestStationResult} from "../../shared/BestStationResult";
+import { findBestStation } from "../findBestStation/findBestStation";
+import { StationDataWithBicycling } from "../../shared/StationDataWithBicycling";
+import { LatLng } from "../../shared/LatLng";
+import { BestStationResult } from "../../shared/BestStationResult";
+import {SearchQuery} from "../../shared/SearchQuery";
 
 export const findEndStationSecond = async (
+    searchQuery: SearchQuery,
     stationStartPromise: Promise<BestStationResult>,
     mergedStationsWithBicyclingDataPromise: Promise<StationDataWithBicycling[]>
 ) => {
@@ -12,9 +14,10 @@ export const findEndStationSecond = async (
         lng: (await stationStartPromise).station.stationData.lng
     };
     return findBestStation(
+        searchQuery,
         mergedStationsWithBicyclingDataPromise,
         (await stationStartPromise).reservationTime,
         stationStartLocation,
         'bicycling',
-        'destination');
+        'dropoff');
 };

@@ -13,19 +13,19 @@ import {mockReservations} from "../../db/mockData/mockReservations";
 import {Event} from "../../db/models/event/Event";
 import {mockEvents} from "../../db/mockData/mockEvents";
 
-export const findBestTrip = async (query: SearchQuery): Promise<TripData> => {
-    const originStationsPromise = findClosestStationsByWalkingDistance(query.origin.coords);
-    const destinationStationsPromise = findClosestStationsByWalkingDistance(query.destination.coords);
+export const findBestTrip = async (searchQuery: SearchQuery): Promise<TripData> => {
+    const originStationsPromise = findClosestStationsByWalkingDistance(searchQuery.origin.coords);
+    const destinationStationsPromise = findClosestStationsByWalkingDistance(searchQuery.destination.coords);
 
     const { stationStartPromise, stationEndPromise } =
-        await findStations(query, originStationsPromise, destinationStationsPromise);
+        await findStations(searchQuery, originStationsPromise, destinationStationsPromise);
 
-    const walking1DirectionsPromise = buildAndFetchWalkingDirections(query.origin.coords, stationStartPromise);
-    const walking2DirectionsPromise = buildAndFetchWalkingDirections(query.destination.coords, stationEndPromise);
+    const walking1DirectionsPromise = buildAndFetchWalkingDirections(searchQuery.origin.coords, stationStartPromise);
+    const walking2DirectionsPromise = buildAndFetchWalkingDirections(searchQuery.destination.coords, stationEndPromise);
     const bicyclingDirectionsPromise = buildAndFetchBicyclingDirections(stationStartPromise, stationEndPromise);
 
     return buildTripData(
-        query,
+        searchQuery,
         stationStartPromise,
         stationEndPromise,
         walking1DirectionsPromise,
