@@ -66,14 +66,14 @@ describe('Get Events By Station Id', function () {
         });
     }); });
     it('should return all the events at that station', function () { return __awaiter(_this, void 0, void 0, function () {
-        var stationId, reservations, expectedResult;
+        var stationId, events, expectedResult;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     stationId = 1;
                     return [4 /*yield*/, getEventsByStationId_1.getEventsByStationId(stationId)];
                 case 1:
-                    reservations = _a.sent();
+                    events = _a.sent();
                     expectedResult = [
                         {
                             id: 1,
@@ -96,7 +96,7 @@ describe('Get Events By Station Id', function () {
                             "reservation.userId": null
                         }
                     ];
-                    chai_1.expect(reservations).to.deep.equal(expectedResult);
+                    chai_1.expect(events).to.deep.equal(expectedResult);
                     return [2 /*return*/];
             }
         });

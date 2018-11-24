@@ -1,5 +1,4 @@
 import { ReservationEvent } from "../../shared/ReservationEvent";
-import { ReservationQuery } from "../../shared/ReservationQuery";
 
 export const findPreviousEvent = (
     time: Date,

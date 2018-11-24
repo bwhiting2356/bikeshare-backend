@@ -38,7 +38,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var db_1 = require("../../db/db");
 var Reservation_1 = require("../../db/models/reservation/Reservation");
 var Event_1 = require("../../db/models/event/Event");
-describe.only('Make Reservation', function () {
+var findPreviousEvent_1 = require("../../src/isReservationAvailable/findPreviousEvent");
+var addSeconds_1 = require("../../src/helpers/addSeconds");
+describe('Make Reservation', function () {
     var _this = this;
     before(function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -51,21 +53,77 @@ describe.only('Make Reservation', function () {
         });
     }); });
     it('should create a reservation and correctly adjust inventory events', function () { return __awaiter(_this, void 0, void 0, function () {
-        var reservation, event;
+        var reservation, previousEvents, station, reservationStartTime, reservationEndTime, beforeFirstEvent, beforeSecondEvent, reservationType, firstEvent, secondEvent;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, Reservation_1.Reservation.create()];
                 case 1:
                     reservation = _a.sent();
-                    return [4 /*yield*/, Event_1.Event.create({
-                            potentialHighInv: 1,
+                    previousEvents = [
+                        {
+                            time: new Date("2018-04-19T04:00:00.316Z"),
                             potentialLowInv: 1,
-                            time: new Date(),
+                            potentialHighInv: 1
+                        },
+                        {
+                            time: new Date("2018-04-19T05:00:00.316Z"),
+                            potentialLowInv: 1,
+                            potentialHighInv: 1
+                        },
+                        {
+                            time: new Date("2018-04-19T07:00:00.316Z"),
+                            potentialLowInv: 1,
+                            potentialHighInv: 1
+                        },
+                        {
+                            time: new Date("2018-04-19T07:05:00.316Z"),
+                            potentialLowInv: 1,
+                            potentialHighInv: 1
+                        },
+                        {
+                            time: new Date("2018-04-19T08:00:00.316Z"),
+                            potentialLowInv: 1,
+                            potentialHighInv: 1
+                        },
+                        {
+                            time: new Date("2018-04-19T09:00:00.316Z"),
+                            potentialLowInv: 1,
+                            potentialHighInv: 1
+                        }
+                    ];
+                    station = {
+                        id: 1,
+                        address: '123',
+                        lat: 40.700802,
+                        lng: -73.941866,
+                        currentInv: 1,
+                        capacity: 10
+                    };
+                    reservationStartTime = new Date("2018-04-19T07:01:00.316Z");
+                    reservationEndTime = addSeconds_1.addSeconds(reservationStartTime, 600);
+                    beforeFirstEvent = findPreviousEvent_1.findPreviousEvent(reservationStartTime, previousEvents);
+                    beforeSecondEvent = findPreviousEvent_1.findPreviousEvent(reservationEndTime, previousEvents);
+                    reservationType = 'pickup';
+                    if (!(reservationType == 'pickup')) return [3 /*break*/, 4];
+                    return [4 /*yield*/, Event_1.Event.create({
+                            potentialHighInv: beforeFirstEvent ? beforeFirstEvent.potentialLowInv : station.currentInv,
+                            potentialLowInv: beforeFirstEvent ? beforeFirstEvent.potentialLowInv - 1 : station.currentInv - 1,
+                            time: reservationStartTime,
                             reservationId: reservation.dataValues.id
                         })];
                 case 2:
-                    event = _a.sent();
-                    console.log(event);
+                    firstEvent = _a.sent();
+                    return [4 /*yield*/, Event_1.Event.create({
+                            potentialHighInv: beforeFirstEvent ? beforeFirstEvent.potentialLowInv : station.currentInv,
+                            potentialLowInv: beforeFirstEvent ? beforeFirstEvent.potentialLowInv - 1 : station.currentInv - 1,
+                            time: reservationEndTime,
+                            reservationId: reservation.dataValues.id
+                        })];
+                case 3:
+                    secondEvent = _a.sent();
+                    _a.label = 4;
+                case 4:
+                    // console.log(event);
                     // if the reservation is pickup, decrement the lowInv immediately, decrement the highInv ten minutes later
                     // if the reservation is dropoff, increment the highInv immediately, increment the lowInv ten minutes later
                     /*

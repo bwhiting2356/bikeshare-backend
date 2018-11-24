@@ -19,7 +19,7 @@ describe('Get Events By Station Id', function() {
 
     it('should return all the events at that station', async () => {
         const stationId = 1;
-        const reservations = await getEventsByStationId(stationId);
+        const events = await getEventsByStationId(stationId);
         const expectedResult = [
             {
                 id: 1,
@@ -42,7 +42,7 @@ describe('Get Events By Station Id', function() {
                 "reservation.userId": null
             }];
 
-        expect(reservations).to.deep.equal(expectedResult)
+        expect(events).to.deep.equal(expectedResult)
 
     })
 
