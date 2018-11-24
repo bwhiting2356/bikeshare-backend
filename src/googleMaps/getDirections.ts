@@ -1,7 +1,6 @@
 import { googleMapsClient } from "./googleMapsClient";
 import { DirectionsQuery } from "../../shared/DirectionsQuery";
 import { DirectionsResponse } from "../../shared/DirectionsResponse";
-import {TravelMode} from "./buildDistanceMatrixQuery";
 
 export const getDirections = (query: DirectionsQuery): Promise<DirectionsResponse> => {
     return new Promise<DirectionsResponse>((resolve, reject) => {

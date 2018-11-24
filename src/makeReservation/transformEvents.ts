@@ -1,5 +1,5 @@
 import { ReservationType } from "../../shared/ReservationType";
-import {sequelize} from "../../db/db";
+import { sequelize } from "../../db/db";
 
 export const transformEvents = async (
     startTime: string,

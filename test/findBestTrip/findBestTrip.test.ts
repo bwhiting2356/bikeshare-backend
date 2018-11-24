@@ -2,7 +2,6 @@ import { expect } from 'chai';
 
 import { sequelize } from "../../db/db";
 import { Station } from "../../db/models/station/Station";
-
 import { SearchQuery } from "../../shared/SearchQuery";
 import { findBestTrip } from "../../src/findBestTrip/findBestTrip";
 import { TripData } from "../../shared/TripData";

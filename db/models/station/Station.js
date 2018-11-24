@@ -10,7 +10,5 @@ var stationAttributes = {
     lat: Sequelize.NUMERIC,
     lng: Sequelize.NUMERIC
 };
-exports.Station = db_1.sequelize.define("station", stationAttributes, {
-    timestamps: false
-});
+exports.Station = db_1.sequelize.define("station", stationAttributes, { timestamps: false });
 //# sourceMappingURL=Station.js.map

@@ -12,6 +12,5 @@ const stationAttributes: SequelizeAttributes<StationAttributes> = {
     lat: Sequelize.NUMERIC,
     lng: Sequelize.NUMERIC
 };
-export const Station = sequelize.define<StationInstance, StationAttributes>("station", stationAttributes, {
-    timestamps: false
-});
+export const Station = sequelize.define<StationInstance, StationAttributes>("station",
+    stationAttributes, { timestamps: false });
