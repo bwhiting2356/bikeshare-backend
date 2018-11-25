@@ -42,10 +42,12 @@ var getStations_1 = require("./getStations");
 var findClosestStationsByRawDistance_1 = require("./findClosestStationsByRawDistance");
 var mergeWalkingDistanceMatrixResultWithStations_1 = require("./mergeWalkingDistanceMatrixResultWithStations");
 exports.findClosestStationsByWalkingDistance = function (location) { return __awaiter(_this, void 0, void 0, function () {
-    var stations, stationsRawDistance, distanceMatrixQuery, results, nearbyStations;
+    var stations, stationsRawDistance, distanceMatrixQuery, results, nearbyStations, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, getStations_1.getStations()];
+            case 0:
+                _a.trys.push([0, 4, , 5]);
+                return [4 /*yield*/, getStations_1.getStations()];
             case 1:
                 stations = _a.sent();
                 stationsRawDistance = findClosestStationsByRawDistance_1.findClosestStationsByRawDistance(stations, location, 10);
@@ -61,8 +63,13 @@ exports.findClosestStationsByWalkingDistance = function (location) { return __aw
                 }
                 else {
                     throw new Error("no nearby stations");
+                    // TODO: how should I not handle this locally? why is that bad?
                 }
-                return [2 /*return*/];
+                return [3 /*break*/, 5];
+            case 4:
+                e_1 = _a.sent();
+                throw new Error(e_1);
+            case 5: return [2 /*return*/];
         }
     });
 }); };

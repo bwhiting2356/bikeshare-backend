@@ -6,17 +6,24 @@ export const buildAndFetchBicyclingDirections = async (
     stationStartPromise: Promise<BestStationResult>,
     stationEndPromise: Promise<BestStationResult>) => {
 
-    const bicyclingDirectionsQuery: DirectionsQuery = {
-        origin:  {
-            lat: (await stationStartPromise).station.stationData.lat,
-            lng: (await stationStartPromise).station.stationData.lng
-        },
-        destination: {
-            lat: (await stationEndPromise).station.stationData.lat,
-            lng: (await stationEndPromise).station.stationData.lng,
-        },
-        mode: 'bicycling'
-    };
+    try {
+        const bicyclingDirectionsQuery: DirectionsQuery = {
+            origin:  {
+                lat: (await stationStartPromise).station.stationData.lat,
+                lng: (await stationStartPromise).station.stationData.lng
+            },
+            destination: {
+                lat: (await stationEndPromise).station.stationData.lat,
+                lng: (await stationEndPromise).station.stationData.lng,
+            },
+            mode: 'bicycling'
+        };
 
-    return getDirections(bicyclingDirectionsQuery);
+        return getDirections(bicyclingDirectionsQuery);
+    } catch (e) {
+        throw new Error(e);
+        // TODO: test this error handling
+    }
+
+
 };

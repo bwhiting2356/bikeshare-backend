@@ -10,15 +10,22 @@ export const fetchAndMergeBicyclingDistance = async (
     destinationStationsPromise: Promise<StationDataWithWalking[]>,
     bestStationData: Promise<BestStationResult>
 ): Promise<StationDataWithBicycling[]> => {
+    try {
+        const destinationStationsData = (await destinationStationsPromise)
+            .map(station => station.stationData);
 
-    const destinationStationsData = (await destinationStationsPromise)
-        .map(station => station.stationData);
+        const stationLoc: LatLng = {
+            lat: (await bestStationData).station.stationData.lat,
+            lng: (await bestStationData).station.stationData.lng
+        };
+        const distanceMatrixQuery = buildDistanceMatrixQuery('bicycling', destinationStationsData, stationLoc);
+        const results = await fetchDistanceMatrix(distanceMatrixQuery);
+        return mergeBicyclingDistanceMatrixResultWithStations(results, await destinationStationsPromise);
+    } catch (e) {
+        throw new Error(e);
+        // TODO: test this error handling
+    }
 
-    const stationLoc: LatLng = {
-        lat: (await bestStationData).station.stationData.lat,
-        lng: (await bestStationData).station.stationData.lng
-    };
-    const distanceMatrixQuery = buildDistanceMatrixQuery('bicycling', destinationStationsData, stationLoc);
-    const results = await fetchDistanceMatrix(distanceMatrixQuery);
-    return mergeBicyclingDistanceMatrixResultWithStations(results, await destinationStationsPromise);
+
+
 };

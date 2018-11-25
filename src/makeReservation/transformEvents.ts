@@ -6,30 +6,36 @@ export const transformEvents = async (
     endTime: string,
     reservationType: ReservationType) => {
 
-    if (reservationType == 'pickup') {
-        await sequelize.query(`
+    try {
+
+        if (reservationType == 'pickup') {
+            await sequelize.query(`
             UPDATE events 
             SET potentialLowInv = potentialLowInv - 1 
             WHERE time >= datetime(\"${startTime}\");
         `);
 
-        await sequelize.query(`
+            await sequelize.query(`
             UPDATE events 
             SET potentialHighInv = potentialHighInv - 1 
             WHERE time >= datetime(\"${endTime}\");
         `);
-    } else if (reservationType == 'dropoff') {
+        } else if (reservationType == 'dropoff') {
 
-        await sequelize.query(`
+            await sequelize.query(`
             UPDATE events 
             SET potentialHighInv = potentialHighInv + 1 
             WHERE time >= datetime(\"${startTime}\");
         `);
 
-        await sequelize.query(`
+            await sequelize.query(`
             UPDATE events 
             SET potentialLowInv = potentialLowInv + 1 
             WHERE time >= datetime(\"${endTime}\");
         `);
+        }
+    } catch (e) {
+        throw new Error(e);
+        // TODO: test this error handling
     }
 };

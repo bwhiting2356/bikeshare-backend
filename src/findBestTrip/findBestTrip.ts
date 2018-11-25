@@ -7,21 +7,26 @@ import { buildAndFetchWalkingDirections } from "./buildAndFetchWalkingDirections
 import { buildAndFetchBicyclingDirections } from "./buildAndFetchBicyclingDirections";
 
 export const findBestTrip = async (searchQuery: SearchQuery): Promise<TripData> => {
-    const originStationsPromise = findClosestStationsByWalkingDistance(searchQuery.origin.coords);
-    const destinationStationsPromise = findClosestStationsByWalkingDistance(searchQuery.destination.coords);
+    try {
+        const originStationsPromise = findClosestStationsByWalkingDistance(searchQuery.origin.coords);
+        const destinationStationsPromise = findClosestStationsByWalkingDistance(searchQuery.destination.coords);
 
-    const { stationStartPromise, stationEndPromise } =
-        await findStations(searchQuery, originStationsPromise, destinationStationsPromise);
+        const { stationStartPromise, stationEndPromise } =
+            await findStations(searchQuery, originStationsPromise, destinationStationsPromise);
 
-    const walking1DirectionsPromise = buildAndFetchWalkingDirections(searchQuery.origin.coords, stationStartPromise);
-    const walking2DirectionsPromise = buildAndFetchWalkingDirections(searchQuery.destination.coords, stationEndPromise);
-    const bicyclingDirectionsPromise = buildAndFetchBicyclingDirections(stationStartPromise, stationEndPromise);
+        const walking1DirectionsPromise = buildAndFetchWalkingDirections(searchQuery.origin.coords, stationStartPromise);
+        const walking2DirectionsPromise = buildAndFetchWalkingDirections(searchQuery.destination.coords, stationEndPromise);
+        const bicyclingDirectionsPromise = buildAndFetchBicyclingDirections(stationStartPromise, stationEndPromise);
 
-    return buildTripData(
-        searchQuery,
-        stationStartPromise,
-        stationEndPromise,
-        walking1DirectionsPromise,
-        walking2DirectionsPromise,
-        bicyclingDirectionsPromise)
+        return buildTripData(
+            searchQuery,
+            stationStartPromise,
+            stationEndPromise,
+            walking1DirectionsPromise,
+            walking2DirectionsPromise,
+            bicyclingDirectionsPromise)
+    } catch (e) {
+        throw new Error(e);
+        // TODO: test this error handling
+    }
 };

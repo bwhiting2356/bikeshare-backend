@@ -38,10 +38,11 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var findBestStation_1 = require("../findBestStation/findBestStation");
 exports.findEndStationSecond = function (searchQuery, stationStartPromise, mergedStationsWithBicyclingDataPromise) { return __awaiter(_this, void 0, void 0, function () {
-    var stationStartLocation, _a, _b, _c;
+    var stationStartLocation, _a, _b, _c, e_1;
     return __generator(this, function (_d) {
         switch (_d.label) {
             case 0:
+                _d.trys.push([0, 4, , 5]);
                 _a = {};
                 return [4 /*yield*/, stationStartPromise];
             case 1:
@@ -58,6 +59,10 @@ exports.findEndStationSecond = function (searchQuery, stationStartPromise, merge
                     stationStartLocation,
                     'bicycling',
                     'dropoff']))];
+            case 4:
+                e_1 = _d.sent();
+                throw new Error(e_1);
+            case 5: return [2 /*return*/];
         }
     });
 }); };

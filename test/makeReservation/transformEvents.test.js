@@ -43,7 +43,7 @@ var mockStations_1 = require("../../db/mockData/mockStations");
 var Reservation_1 = require("../../db/models/reservation/Reservation");
 var mockReservations_1 = require("../../db/mockData/mockReservations");
 var transformEvents_1 = require("../../src/makeReservation/transformEvents");
-describe.only('Transform Events', function () {
+describe('Transform Events', function () {
     var _this = this;
     beforeEach(function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {

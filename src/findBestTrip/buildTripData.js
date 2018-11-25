@@ -51,10 +51,12 @@ var calculateBicyclingRentalFee_1 = require("./calculateBicyclingRentalFee");
 var calculateArrivalTime_1 = require("./calculateArrivalTime");
 var calculateDepartureTime_1 = require("./calculateDepartureTime");
 exports.buildTripData = function (query, stationStartPromise, stationEndPromise, walking1DirectionsPromise, walking2DirectionsPromise, bicyclingDirectionsPromise) { return __awaiter(_this, void 0, void 0, function () {
-    var stationStartResult, stationEndResult, walking1Travel, walking2Travel, departureTime, arrivalTime, stationStart, bicyclingTravel, _a, _b, _c, stationEnd;
+    var stationStartResult, stationEndResult, walking1Travel, walking2Travel, departureTime, arrivalTime, stationStart, bicyclingTravel, _a, _b, _c, stationEnd, e_1;
     return __generator(this, function (_d) {
         switch (_d.label) {
-            case 0: return [4 /*yield*/, stationStartPromise];
+            case 0:
+                _d.trys.push([0, 7, , 8]);
+                return [4 /*yield*/, stationStartPromise];
             case 1:
                 stationStartResult = _d.sent();
                 return [4 /*yield*/, stationEndPromise];
@@ -109,6 +111,10 @@ exports.buildTripData = function (query, stationStartPromise, stationEndPromise,
                         stationEnd: stationEnd,
                         status: 'test'
                     }];
+            case 7:
+                e_1 = _d.sent();
+                throw new Error(e_1);
+            case 8: return [2 /*return*/];
         }
     });
 }); };

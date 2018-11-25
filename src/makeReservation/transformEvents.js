@@ -38,9 +38,11 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var db_1 = require("../../db/db");
 exports.transformEvents = function (startTime, endTime, reservationType) { return __awaiter(_this, void 0, void 0, function () {
+    var e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                _a.trys.push([0, 7, , 8]);
                 if (!(reservationType == 'pickup')) return [3 /*break*/, 3];
                 return [4 /*yield*/, db_1.sequelize.query("\n            UPDATE events \n            SET potentialLowInv = potentialLowInv - 1 \n            WHERE time >= datetime(\"" + startTime + "\");\n        ")];
             case 1:
@@ -58,7 +60,11 @@ exports.transformEvents = function (startTime, endTime, reservationType) { retur
             case 5:
                 _a.sent();
                 _a.label = 6;
-            case 6: return [2 /*return*/];
+            case 6: return [3 /*break*/, 8];
+            case 7:
+                e_1 = _a.sent();
+                throw new Error(e_1);
+            case 8: return [2 /*return*/];
         }
     });
 }); };

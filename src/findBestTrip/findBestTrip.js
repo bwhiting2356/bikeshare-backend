@@ -42,10 +42,11 @@ var findStations_1 = require("./findStations");
 var buildAndFetchWalkingDirections_1 = require("./buildAndFetchWalkingDirections");
 var buildAndFetchBicyclingDirections_1 = require("./buildAndFetchBicyclingDirections");
 exports.findBestTrip = function (searchQuery) { return __awaiter(_this, void 0, void 0, function () {
-    var originStationsPromise, destinationStationsPromise, _a, stationStartPromise, stationEndPromise, walking1DirectionsPromise, walking2DirectionsPromise, bicyclingDirectionsPromise;
+    var originStationsPromise, destinationStationsPromise, _a, stationStartPromise, stationEndPromise, walking1DirectionsPromise, walking2DirectionsPromise, bicyclingDirectionsPromise, e_1;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
+                _b.trys.push([0, 2, , 3]);
                 originStationsPromise = findClosestStationsByWalkingDistance_1.findClosestStationsByWalkingDistance(searchQuery.origin.coords);
                 destinationStationsPromise = findClosestStationsByWalkingDistance_1.findClosestStationsByWalkingDistance(searchQuery.destination.coords);
                 return [4 /*yield*/, findStations_1.findStations(searchQuery, originStationsPromise, destinationStationsPromise)];
@@ -55,6 +56,10 @@ exports.findBestTrip = function (searchQuery) { return __awaiter(_this, void 0, 
                 walking2DirectionsPromise = buildAndFetchWalkingDirections_1.buildAndFetchWalkingDirections(searchQuery.destination.coords, stationEndPromise);
                 bicyclingDirectionsPromise = buildAndFetchBicyclingDirections_1.buildAndFetchBicyclingDirections(stationStartPromise, stationEndPromise);
                 return [2 /*return*/, buildTripData_1.buildTripData(searchQuery, stationStartPromise, stationEndPromise, walking1DirectionsPromise, walking2DirectionsPromise, bicyclingDirectionsPromise)];
+            case 2:
+                e_1 = _b.sent();
+                throw new Error(e_1);
+            case 3: return [2 /*return*/];
         }
     });
 }); };

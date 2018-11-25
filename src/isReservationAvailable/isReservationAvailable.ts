@@ -18,35 +18,43 @@ export const isReservationAvailable = async (
     reservationQuery: ReservationQuery,
     reservationEvents: ReservationEvent[]): Promise<ReservationAvailability> => {
 
-    if (reservationQuery.time < currentTime) {
-        throw new Error("Time is in the past");
+    try {
+        if (reservationQuery.time < currentTime) {
+            throw new Error("Time is in the past");
+        }
+
+        const extremeEvent = findExtremeInventoryEvent(reservationQuery, reservationEvents);
+        const previousEvent = findPreviousEvent(reservationQuery.time, reservationEvents);
+
+        let result: ReservationAvailability;
+        if (reservationQuery.type === 'pickup') {
+            const value = extremeEvent
+                ? extremeEvent.potentialLowInv
+                : previousEvent
+                    ? previousEvent.potentialLowInv
+                    : stationData.currentInv;
+            result = value > 0
+                ? { result: true, value }
+                : { result: false }
+
+        } else if (reservationQuery.type === 'dropoff') {
+            const value = extremeEvent
+                ? extremeEvent.potentialHighInv
+                : previousEvent
+                    ? previousEvent.potentialHighInv
+                    : stationData.currentInv;
+            result = value < stationData.capacity
+                ? { result: true, value }
+                : { result: false }
+        } else {
+            throw new Error("reservation query type error");
+            // TODO: figure out how to now catch locally
+        }
+        return result;
+    } catch (e) {
+        throw new Error(e);
+        // TODO: test this error handling
     }
 
-    const extremeEvent = findExtremeInventoryEvent(reservationQuery, reservationEvents);
-    const previousEvent = findPreviousEvent(reservationQuery.time, reservationEvents);
 
-    let result: ReservationAvailability;
-    if (reservationQuery.type === 'pickup') {
-        const value = extremeEvent
-            ? extremeEvent.potentialLowInv
-            : previousEvent
-                ? previousEvent.potentialLowInv
-                : stationData.currentInv;
-        result = value > 0
-            ? { result: true, value }
-            : { result: false }
-
-    } else if (reservationQuery.type === 'dropoff') {
-        const value = extremeEvent
-            ? extremeEvent.potentialHighInv
-            : previousEvent
-                ? previousEvent.potentialHighInv
-                : stationData.currentInv;
-        result = value < stationData.capacity
-            ? { result: true, value }
-            : { result: false }
-    } else {
-        throw new Error("reservation query type error")
-    }
-    return result;
 };

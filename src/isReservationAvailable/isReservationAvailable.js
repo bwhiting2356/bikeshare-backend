@@ -42,35 +42,44 @@ var findPreviousEvent_1 = require("./findPreviousEvent");
 exports.isReservationAvailable = function (currentTime, stationData, reservationQuery, reservationEvents) { return __awaiter(_this, void 0, void 0, function () {
     var extremeEvent, previousEvent, result, value, value;
     return __generator(this, function (_a) {
-        if (reservationQuery.time < currentTime) {
-            throw new Error("Time is in the past");
+        try {
+            if (reservationQuery.time < currentTime) {
+                throw new Error("Time is in the past");
+            }
+            extremeEvent = findExtremeInventoryEvent_1.findExtremeInventoryEvent(reservationQuery, reservationEvents);
+            previousEvent = findPreviousEvent_1.findPreviousEvent(reservationQuery.time, reservationEvents);
+            result = void 0;
+            if (reservationQuery.type === 'pickup') {
+                value = extremeEvent
+                    ? extremeEvent.potentialLowInv
+                    : previousEvent
+                        ? previousEvent.potentialLowInv
+                        : stationData.currentInv;
+                result = value > 0
+                    ? { result: true, value: value }
+                    : { result: false };
+            }
+            else if (reservationQuery.type === 'dropoff') {
+                value = extremeEvent
+                    ? extremeEvent.potentialHighInv
+                    : previousEvent
+                        ? previousEvent.potentialHighInv
+                        : stationData.currentInv;
+                result = value < stationData.capacity
+                    ? { result: true, value: value }
+                    : { result: false };
+            }
+            else {
+                throw new Error("reservation query type error");
+                // TODO: figure out how to now catch locally
+            }
+            return [2 /*return*/, result];
         }
-        extremeEvent = findExtremeInventoryEvent_1.findExtremeInventoryEvent(reservationQuery, reservationEvents);
-        previousEvent = findPreviousEvent_1.findPreviousEvent(reservationQuery.time, reservationEvents);
-        if (reservationQuery.type === 'pickup') {
-            value = extremeEvent
-                ? extremeEvent.potentialLowInv
-                : previousEvent
-                    ? previousEvent.potentialLowInv
-                    : stationData.currentInv;
-            result = value > 0
-                ? { result: true, value: value }
-                : { result: false };
+        catch (e) {
+            throw new Error(e);
+            // TODO: test this error handling
         }
-        else if (reservationQuery.type === 'dropoff') {
-            value = extremeEvent
-                ? extremeEvent.potentialHighInv
-                : previousEvent
-                    ? previousEvent.potentialHighInv
-                    : stationData.currentInv;
-            result = value < stationData.capacity
-                ? { result: true, value: value }
-                : { result: false };
-        }
-        else {
-            throw new Error("reservation query type error");
-        }
-        return [2 /*return*/, result];
+        return [2 /*return*/];
     });
 }); };
 //# sourceMappingURL=isReservationAvailable.js.map

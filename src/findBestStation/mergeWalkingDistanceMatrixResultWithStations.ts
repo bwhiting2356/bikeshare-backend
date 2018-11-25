@@ -8,12 +8,7 @@ export const mergeWalkingDistanceMatrixResultWithStations = (
     stationsData: StationDataWithDistance[]): StationDataWithWalking[] => {
 
     return response
-        .map((row, i) => {
-            return {
-                walkingDistanceMatrixResult: row,
-                stationData: stationsData[i]
-            };
-        })
+        .map((row, i) => ({ walkingDistanceMatrixResult: row, stationData: stationsData[i] }))
         .filter(mergedData => mergedData.walkingDistanceMatrixResult.status !== 'ZERO_RESULTS')
         .sort(compareMergedStationData)
 };

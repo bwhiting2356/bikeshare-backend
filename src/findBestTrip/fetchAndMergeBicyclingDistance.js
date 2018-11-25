@@ -40,10 +40,12 @@ var buildDistanceMatrixQuery_1 = require("../googleMaps/buildDistanceMatrixQuery
 var mergeBicyclingDistanceMatrixResultWithStations_1 = require("./mergeBicyclingDistanceMatrixResultWithStations");
 var fetchDistanceMatrix_1 = require("../googleMaps/fetchDistanceMatrix");
 exports.fetchAndMergeBicyclingDistance = function (destinationStationsPromise, bestStationData) { return __awaiter(_this, void 0, void 0, function () {
-    var destinationStationsData, stationLoc, _a, distanceMatrixQuery, results, _b, _c;
+    var destinationStationsData, stationLoc, _a, distanceMatrixQuery, results, _b, _c, e_1;
     return __generator(this, function (_d) {
         switch (_d.label) {
-            case 0: return [4 /*yield*/, destinationStationsPromise];
+            case 0:
+                _d.trys.push([0, 6, , 7]);
+                return [4 /*yield*/, destinationStationsPromise];
             case 1:
                 destinationStationsData = (_d.sent())
                     .map(function (station) { return station.stationData; });
@@ -63,6 +65,10 @@ exports.fetchAndMergeBicyclingDistance = function (destinationStationsPromise, b
                 _c = [results];
                 return [4 /*yield*/, destinationStationsPromise];
             case 5: return [2 /*return*/, _b.apply(void 0, _c.concat([_d.sent()]))];
+            case 6:
+                e_1 = _d.sent();
+                throw new Error(e_1);
+            case 7: return [2 /*return*/];
         }
     });
 }); };

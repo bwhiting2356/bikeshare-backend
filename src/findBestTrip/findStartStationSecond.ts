@@ -9,16 +9,22 @@ export const findStartStationSecond = async (
     stationEndPromise: Promise<BestStationResult>,
     mergedStationsWithBicyclingDataPromise: Promise<StationDataWithBicycling[]>
 ) => {
-    const stationEndLoc: LatLng = {
-        lat: (await stationEndPromise).station.stationData.lat,
-        lng: (await stationEndPromise).station.stationData.lng
-    };
+    try {
+        const stationEndLoc: LatLng = {
+            lat: (await stationEndPromise).station.stationData.lat,
+            lng: (await stationEndPromise).station.stationData.lng
+        };
 
-    return findBestStation(
-        searchQuery,
-        mergedStationsWithBicyclingDataPromise,
-        (await stationEndPromise).reservationTime,
-        stationEndLoc,
-        'bicycling',
-        'pickup');
+        return findBestStation(
+            searchQuery,
+            mergedStationsWithBicyclingDataPromise,
+            (await stationEndPromise).reservationTime,
+            stationEndLoc,
+            'bicycling',
+            'pickup');
+    } catch (e) {
+        throw new Error(e);
+        // TODO: test this error handling
+    }
+
 };

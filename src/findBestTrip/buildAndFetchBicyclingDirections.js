@@ -38,10 +38,11 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var getDirections_1 = require("../googleMaps/getDirections");
 exports.buildAndFetchBicyclingDirections = function (stationStartPromise, stationEndPromise) { return __awaiter(_this, void 0, void 0, function () {
-    var bicyclingDirectionsQuery, _a, _b, _c;
+    var bicyclingDirectionsQuery, _a, _b, _c, e_1;
     return __generator(this, function (_d) {
         switch (_d.label) {
             case 0:
+                _d.trys.push([0, 5, , 6]);
                 _a = {};
                 _b = {};
                 return [4 /*yield*/, stationStartPromise];
@@ -62,6 +63,10 @@ exports.buildAndFetchBicyclingDirections = function (stationStartPromise, statio
                     _a.mode = 'bicycling',
                     _a);
                 return [2 /*return*/, getDirections_1.getDirections(bicyclingDirectionsQuery)];
+            case 5:
+                e_1 = _d.sent();
+                throw new Error(e_1);
+            case 6: return [2 /*return*/];
         }
     });
 }); };

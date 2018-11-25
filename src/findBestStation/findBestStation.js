@@ -41,10 +41,12 @@ var getEventsByStationId_1 = require("../isReservationAvailable/getEventsByStati
 var addSeconds_1 = require("../helpers/addSeconds");
 var subtractSeconds_1 = require("../helpers/subtractSeconds");
 exports.findBestStation = function (searchQuery, stationsPromise, queryTime, location, travelMode, type) { return __awaiter(_this, void 0, void 0, function () {
-    var nearestStations, found, currentStation, distanceMatrixResult, events, reservationTime, stationQuery, availability;
+    var nearestStations, found, currentStation, distanceMatrixResult, events, reservationTime, stationQuery, availability, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, stationsPromise];
+            case 0:
+                _a.trys.push([0, 6, , 7]);
+                return [4 /*yield*/, stationsPromise];
             case 1:
                 nearestStations = _a.sent();
                 found = false;
@@ -89,7 +91,11 @@ exports.findBestStation = function (searchQuery, stationsPromise, queryTime, loc
                         }];
                 }
                 return [3 /*break*/, 2];
-            case 5: 
+            case 5: return [3 /*break*/, 7];
+            case 6:
+                e_1 = _a.sent();
+                throw new Error(e_1);
+            case 7: 
             // if we got this far then there is a problem
             throw new Error("no nearby stations available at this time");
         }

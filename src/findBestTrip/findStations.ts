@@ -12,25 +12,31 @@ export const findStations = async (
     originStationsPromise: Promise<StationDataWithWalking[]>,
     destinationStationsPromise: Promise<StationDataWithWalking[]>) => {
 
-    if (searchQuery.timeTarget === 'Depart at') {
+    try {
+        if (searchQuery.timeTarget === 'Depart at') {
 
-        const stationStartPromise = findStartStationFirst(searchQuery, originStationsPromise);
-        const mergedStationsWithBicyclingDataPromise =
-            fetchAndMergeBicyclingDistance(destinationStationsPromise, stationStartPromise);
-        const stationEndPromise = findEndStationSecond(searchQuery, stationStartPromise, mergedStationsWithBicyclingDataPromise)
+            const stationStartPromise = findStartStationFirst(searchQuery, originStationsPromise);
+            const mergedStationsWithBicyclingDataPromise =
+                fetchAndMergeBicyclingDistance(destinationStationsPromise, stationStartPromise);
+            const stationEndPromise = findEndStationSecond(searchQuery, stationStartPromise, mergedStationsWithBicyclingDataPromise)
 
-        return { stationStartPromise, stationEndPromise };
+            return { stationStartPromise, stationEndPromise };
 
-    } else if (searchQuery.timeTarget === 'Arrive by') {
+        } else if (searchQuery.timeTarget === 'Arrive by') {
 
-        const stationEndPromise = findEndStationFirst(searchQuery, destinationStationsPromise);
-        const mergedStationsWithBicyclingDataPromise =
-            fetchAndMergeBicyclingDistance(originStationsPromise, stationEndPromise);
-        const stationStartPromise = findStartStationSecond(searchQuery, stationEndPromise, mergedStationsWithBicyclingDataPromise);
+            const stationEndPromise = findEndStationFirst(searchQuery, destinationStationsPromise);
+            const mergedStationsWithBicyclingDataPromise =
+                fetchAndMergeBicyclingDistance(originStationsPromise, stationEndPromise);
+            const stationStartPromise = findStartStationSecond(searchQuery, stationEndPromise, mergedStationsWithBicyclingDataPromise);
 
-        return { stationStartPromise, stationEndPromise };
+            return { stationStartPromise, stationEndPromise };
 
-    } else {
-        throw new Error("invalid time target");
+        } else {
+            throw new Error("invalid time target");
+            // TODO: figure out how to not catch locally
+        }
+    } catch (e) {
+        throw new Error(e);
+        // TODO: test this error handling
     }
 };

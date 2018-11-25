@@ -11,7 +11,7 @@ import {transformEvents} from "../../src/makeReservation/transformEvents";
 import {ReservationType} from "../../shared/ReservationType";
 import {ReservationEvent} from "../../shared/ReservationEvent";
 
-describe.only('Transform Events', function() {
+describe('Transform Events', function() {
     beforeEach(async () => {
         await sequelize.sync({ force: true });
         await Station.bulkCreate(mockStations);

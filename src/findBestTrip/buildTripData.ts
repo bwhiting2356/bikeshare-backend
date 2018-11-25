@@ -18,62 +18,66 @@ export const buildTripData = async (
     walking2DirectionsPromise: Promise<DirectionsResponse>,
     bicyclingDirectionsPromise: Promise<DirectionsResponse>
 ): Promise<TripData> => {
-    const stationStartResult = await stationStartPromise;
-    const stationEndResult = await stationEndPromise;
-    const walking1Travel = await walking1DirectionsPromise;
-    const walking2Travel = await walking2DirectionsPromise;
+    try {
+        const stationStartResult = await stationStartPromise;
+        const stationEndResult = await stationEndPromise;
+        const walking1Travel = await walking1DirectionsPromise;
+        const walking2Travel = await walking2DirectionsPromise;
 
-    const departureTime: Date = calculateDepartureTime(query, stationStartResult);
-    const arrivalTime: Date = calculateArrivalTime(query, stationEndResult);
+        const departureTime: Date = calculateDepartureTime(query, stationStartResult);
+        const arrivalTime: Date = calculateArrivalTime(query, stationEndResult);
 
-    const stationStart = {
-        id: stationStartResult.station.stationData.id,
-        coords: {
-            lat: stationStartResult.station.stationData.lat,
-            lng: stationStartResult.station.stationData.lng
-        },
-        address: stationStartResult.station.stationData.address,
-        price: calculateReservationPrice(
-            stationStartResult.availability.value as number,
-            stationStartResult.station.stationData.capacity,
-            'pickup'),
-        time: addSeconds(
+        const stationStart = {
+            id: stationStartResult.station.stationData.id,
+            coords: {
+                lat: stationStartResult.station.stationData.lat,
+                lng: stationStartResult.station.stationData.lng
+            },
+            address: stationStartResult.station.stationData.address,
+            price: calculateReservationPrice(
+                stationStartResult.availability.value as number,
+                stationStartResult.station.stationData.capacity,
+                'pickup'),
+            time: addSeconds(
+                departureTime,
+                (stationStartResult.station.walkingDistanceMatrixResult as SuccessRow).duration.value)
+        };
+
+        const bicyclingTravel = {
+            ...(await bicyclingDirectionsPromise),
+            price: calculateBicyclingRentalFee((await bicyclingDirectionsPromise).seconds)
+        };
+
+        const stationEnd = {
+            id: stationEndResult.station.stationData.id,
+            coords: {
+                lat: stationEndResult.station.stationData.lat,
+                lng: stationEndResult.station.stationData.lng
+            },
+            address: stationEndResult.station.stationData.address,
+            price: calculateReservationPrice(
+                stationEndResult.availability.value as number,
+                stationEndResult.station.stationData.capacity,
+                'dropoff'),
+            time: subtractSeconds(
+                arrivalTime,
+                (stationEndResult.station.walkingDistanceMatrixResult as SuccessRow).duration.value)
+        };
+
+        return {
+            origin: query.origin,
+            destination: query.destination,
             departureTime,
-            (stationStartResult.station.walkingDistanceMatrixResult as SuccessRow).duration.value)
-    };
-
-    const bicyclingTravel = {
-        ...(await bicyclingDirectionsPromise),
-        price: calculateBicyclingRentalFee((await bicyclingDirectionsPromise).seconds)
-    };
-
-    const stationEnd = {
-        id: stationEndResult.station.stationData.id,
-        coords: {
-            lat: stationEndResult.station.stationData.lat,
-            lng: stationEndResult.station.stationData.lng
-        },
-        address: stationEndResult.station.stationData.address,
-        price: calculateReservationPrice(
-            stationEndResult.availability.value as number,
-            stationEndResult.station.stationData.capacity,
-            'dropoff'),
-        time: subtractSeconds(
             arrivalTime,
-            (stationEndResult.station.walkingDistanceMatrixResult as SuccessRow).duration.value)
-    };
-
-    return {
-        origin: query.origin,
-        destination: query.destination,
-        departureTime,
-        arrivalTime,
-        walking1Travel,
-        walking2Travel,
-        bicyclingTravel,
-        stationStart,
-        stationEnd,
-        status: 'test'
-    };
-
+            walking1Travel,
+            walking2Travel,
+            bicyclingTravel,
+            stationStart,
+            stationEnd,
+            status: 'test'
+        };
+    } catch (e) {
+        throw new Error(e);
+        // TODO: test this error handling
+    }
 };

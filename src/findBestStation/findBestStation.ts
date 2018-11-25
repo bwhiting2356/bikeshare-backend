@@ -25,59 +25,68 @@ export const findBestStation = async (
     travelMode: TravelMode,
     type: ReservationType): Promise<BestStationResult> => {
 
-    let nearestStations = await stationsPromise;
-    let found = false;
+    try {
+        let nearestStations = await stationsPromise;
+        let found = false;
 
-    while (nearestStations && !found) {
-        // get top station from the queue
-        const currentStation = nearestStations.shift();
-        if (!currentStation) break;
+        while (nearestStations && !found) {
+            // get top station from the queue
+            const currentStation = nearestStations.shift();
+            if (!currentStation) break;
 
-        // get correct distance matrix value depending on travel mode
-        let distanceMatrixResult: DistanceMatrixResultRow;
-        if (travelMode === 'walking') {
-            distanceMatrixResult = currentStation.walkingDistanceMatrixResult as SuccessRow
-        } else if (travelMode === 'bicycling') {
-            distanceMatrixResult = (currentStation as StationDataWithBicycling).bicyclingDistanceMatrixResult as SuccessRow;
-        } else {
-            throw new Error("invalid distance matrix ")
-        }
-        if (!distanceMatrixResult.duration) {
-            throw new Error("distance matrix result value not present");
-        }
+            // get correct distance matrix value depending on travel mode
+            let distanceMatrixResult: DistanceMatrixResultRow;
+            if (travelMode === 'walking') {
+                distanceMatrixResult = currentStation.walkingDistanceMatrixResult as SuccessRow
+            } else if (travelMode === 'bicycling') {
+                distanceMatrixResult = (currentStation as StationDataWithBicycling).bicyclingDistanceMatrixResult as SuccessRow;
+            } else {
+                throw new Error("invalid distance matrix ")
+            }
+            if (!distanceMatrixResult.duration) {
+                throw new Error("distance matrix result value not present");
+            }
 
-        // get events for that station from the database
-        const events = (await getEventsByStationId(currentStation.stationData.id)) as ReservationEvent[];
+            // get events for that station from the database
+            const events = (await getEventsByStationId(currentStation.stationData.id)) as ReservationEvent[];
 
-        // get the time of the proposed reservation
-        const reservationTime: Date = searchQuery.timeTarget === 'Depart at'
-            ? addSeconds(queryTime, distanceMatrixResult.duration.value)
-            : subtractSeconds(queryTime, distanceMatrixResult.duration.value);
+            // get the time of the proposed reservation
+            const reservationTime: Date = searchQuery.timeTarget === 'Depart at'
+                ? addSeconds(queryTime, distanceMatrixResult.duration.value)
+                : subtractSeconds(queryTime, distanceMatrixResult.duration.value);
 
-        // build query
-        const stationQuery: ReservationQuery = {
-            type,
-            time: reservationTime,
-            stationId: currentStation.stationData.id
-        };
-
-        // test availability
-        const availability = await isReservationAvailable(
-            reservationTime,
-            currentStation.stationData,
-            stationQuery,
-            events
-        );
-
-        if (availability && availability.result) {
-            return {
-                station: currentStation,
-                reservationTime,
-                availability
+            // build query
+            const stationQuery: ReservationQuery = {
+                type,
+                time: reservationTime,
+                stationId: currentStation.stationData.id
             };
+
+            // test availability
+            const availability = await isReservationAvailable(
+                reservationTime,
+                currentStation.stationData,
+                stationQuery,
+                events
+            );
+
+            if (availability && availability.result) {
+                return {
+                    station: currentStation,
+                    reservationTime,
+                    availability
+                };
+            }
         }
+    } catch (e) {
+        throw new Error(e);
+        // TODO: test this error handling
     }
+
     // if we got this far then there is a problem
     throw new Error("no nearby stations available at this time")
     // TODO: throw error with specific location (origin or destination) rather than not specified
+
+
+
 };

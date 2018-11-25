@@ -44,20 +44,27 @@ var findStartStationSecond_1 = require("./findStartStationSecond");
 exports.findStations = function (searchQuery, originStationsPromise, destinationStationsPromise) { return __awaiter(_this, void 0, void 0, function () {
     var stationStartPromise, mergedStationsWithBicyclingDataPromise, stationEndPromise, stationEndPromise, mergedStationsWithBicyclingDataPromise, stationStartPromise;
     return __generator(this, function (_a) {
-        if (searchQuery.timeTarget === 'Depart at') {
-            stationStartPromise = findStartStationFirst_1.findStartStationFirst(searchQuery, originStationsPromise);
-            mergedStationsWithBicyclingDataPromise = fetchAndMergeBicyclingDistance_1.fetchAndMergeBicyclingDistance(destinationStationsPromise, stationStartPromise);
-            stationEndPromise = findEndStationSecond_1.findEndStationSecond(searchQuery, stationStartPromise, mergedStationsWithBicyclingDataPromise);
-            return [2 /*return*/, { stationStartPromise: stationStartPromise, stationEndPromise: stationEndPromise }];
+        try {
+            if (searchQuery.timeTarget === 'Depart at') {
+                stationStartPromise = findStartStationFirst_1.findStartStationFirst(searchQuery, originStationsPromise);
+                mergedStationsWithBicyclingDataPromise = fetchAndMergeBicyclingDistance_1.fetchAndMergeBicyclingDistance(destinationStationsPromise, stationStartPromise);
+                stationEndPromise = findEndStationSecond_1.findEndStationSecond(searchQuery, stationStartPromise, mergedStationsWithBicyclingDataPromise);
+                return [2 /*return*/, { stationStartPromise: stationStartPromise, stationEndPromise: stationEndPromise }];
+            }
+            else if (searchQuery.timeTarget === 'Arrive by') {
+                stationEndPromise = findEndStationFirst_1.findEndStationFirst(searchQuery, destinationStationsPromise);
+                mergedStationsWithBicyclingDataPromise = fetchAndMergeBicyclingDistance_1.fetchAndMergeBicyclingDistance(originStationsPromise, stationEndPromise);
+                stationStartPromise = findStartStationSecond_1.findStartStationSecond(searchQuery, stationEndPromise, mergedStationsWithBicyclingDataPromise);
+                return [2 /*return*/, { stationStartPromise: stationStartPromise, stationEndPromise: stationEndPromise }];
+            }
+            else {
+                throw new Error("invalid time target");
+                // TODO: figure out how to not catch locally
+            }
         }
-        else if (searchQuery.timeTarget === 'Arrive by') {
-            stationEndPromise = findEndStationFirst_1.findEndStationFirst(searchQuery, destinationStationsPromise);
-            mergedStationsWithBicyclingDataPromise = fetchAndMergeBicyclingDistance_1.fetchAndMergeBicyclingDistance(originStationsPromise, stationEndPromise);
-            stationStartPromise = findStartStationSecond_1.findStartStationSecond(searchQuery, stationEndPromise, mergedStationsWithBicyclingDataPromise);
-            return [2 /*return*/, { stationStartPromise: stationStartPromise, stationEndPromise: stationEndPromise }];
-        }
-        else {
-            throw new Error("invalid time target");
+        catch (e) {
+            throw new Error(e);
+            // TODO: test this error handling
         }
         return [2 /*return*/];
     });

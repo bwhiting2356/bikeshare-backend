@@ -38,10 +38,11 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var getDirections_1 = require("../googleMaps/getDirections");
 exports.buildAndFetchWalkingDirections = function (coords, stationPromise) { return __awaiter(_this, void 0, void 0, function () {
-    var walking2DirectionsQuery, _a, _b;
+    var walking2DirectionsQuery, _a, _b, e_1;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
+                _c.trys.push([0, 3, , 4]);
                 _a = {
                     origin: coords
                 };
@@ -56,6 +57,10 @@ exports.buildAndFetchWalkingDirections = function (coords, stationPromise) { ret
                     _a.mode = 'walking',
                     _a);
                 return [2 /*return*/, getDirections_1.getDirections(walking2DirectionsQuery)];
+            case 3:
+                e_1 = _c.sent();
+                throw new Error(e_1);
+            case 4: return [2 /*return*/];
         }
     });
 }); };
