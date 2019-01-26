@@ -7,7 +7,6 @@ export const transformEvents = async (
     reservationType: ReservationType) => {
 
     try {
-
         if (reservationType == 'pickup') {
             await sequelize.query(`
             UPDATE events 
